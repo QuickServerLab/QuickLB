@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: ./../lib/QuickServerClient.jar ./../lib/QuickServer.jar ./../lib/commons-logging.jar  ./../lib/commons-pool.jar  ./../lib/commons-collections.jar ./../jetty/jetty-cp.jar
+Main-Class: com.quickserverlab.quicklb.QuickLB

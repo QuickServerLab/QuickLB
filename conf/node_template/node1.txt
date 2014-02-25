@@ -1,0 +1,18 @@
+#type - socket, sslsocket, 
+type=socket
+
+maintainance=false
+
+host=127.0.0.1
+port=8080
+
+timeout=60000
+
+default=0
+
+
+TextToExpect=
+RequestText=
+ResponseTextToExpect=
+
+

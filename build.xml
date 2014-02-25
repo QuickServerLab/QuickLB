@@ -1,0 +1,80 @@
+
+<project name="QuickLB" default="all" basedir=".">
+	<property name="app.name"   value="QuickLB" />
+	<property name="build.dir"  value="build" />
+	<property name="main.build.dir"  value="build/mainclasses" />
+	<property name="dist.dir"   value="dist" />
+	<property name="flag.debug"   value="true" />
+
+	<target name="clean">
+		<delete dir="${main.build.dir}" />
+		<delete dir="${test.build.dir}" />
+		<delete dir="${client.build.dir}" />
+	</target>
+
+	<path id="project.classpath">
+		<fileset dir="./lib/">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="./jetty/">
+			<include name="start.jar"/>
+		</fileset>
+		<fileset dir="./jetty/lib/">
+			<include name="**/*.jar"/>
+		</fileset>		
+	</path>
+	
+
+	<!-- main jar -->
+	<target name="main_compile"  depends="clean">
+		<mkdir dir="${main.build.dir}"/>
+		<javac srcdir="src/main/" destdir="${main.build.dir}" debug="${flag.debug}" 
+				deprecation="on" optimize="on" includeantruntime="false" source="1.6" target="1.6">
+			<include name="**/*.java"/>
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+
+	<target name="main_jar" depends="main_compile">
+		<mkdir dir="${dist.dir}"/>
+		<jar jarfile="${dist.dir}/${app.name}.jar"
+			basedir="${main.build.dir}" includes="**" manifest="src/main/QuickLB.MF"/>
+		
+		<!-- jetty -->
+		<path id="jetty-build-classpath">
+			<fileset dir="jetty/lib">
+				<include name="**/*.jar"/>
+			</fileset>
+		</path>
+		<manifestclasspath property="jetty-lib.list" jarfile="jetty/jetty-cp.jar">
+			<classpath refid="jetty-build-classpath"/>
+		</manifestclasspath>
+		<jar jarfile="jetty/jetty-cp.jar"
+			 basedir="${main.build.dir}"
+			 excludes="**" >
+			<manifest>
+				<attribute name="Class-Path" value="${jetty-lib.list}"/>
+			</manifest>
+		</jar>
+		<!-- jetty -->
+	</target>
+	<!-- main jar -->
+	
+	<target name="run" depends="main_jar">
+		<java fork="yes" classname="com.quickserverlab.quicklb.QuickLB"
+            taskname="QuickLB" failonerror="true">
+			<arg line=""/>
+			<classpath refid="project.classpath"/>
+			<classpath>
+				<fileset dir="dist">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="jar" depends="main_jar" />
+
+	<target name="all" depends="jar" />
+</project>
+

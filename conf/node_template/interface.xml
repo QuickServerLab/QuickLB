@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<quickserver>
+	<name>Quick LB Interface Server</name>
+	<port>4444</port>
+	<bind-address>0.0.0.0</bind-address>
+
+	<client-event-handler>
+		com.quickserverlab.quicklb.server.CommandHandler
+	</client-event-handler>
+	<client-binary-handler>
+		com.quickserverlab.quicklb.server.CommandHandler
+	</client-binary-handler>
+	<client-data>
+		com.quickserverlab.quicklb.server.Data
+	</client-data>
+	
+	<server-hooks>
+		<class-name>com.quickserverlab.quicklb.server.PrepareHook</class-name>
+	</server-hooks>
+
+	<default-data-mode>
+		<data-type-in>Binary</data-type-in>
+		<data-type-out>Binary</data-type-out>
+	</default-data-mode>
+
+	<server-mode>
+		<blocking>true</blocking>
+	</server-mode>
+
+	<max-connection>100</max-connection>
+	<console-logging-level>OFF</console-logging-level>
+	
+	<console-logging-formatter>
+		org.quickserver.util.logging.SimpleConsoleFormatter
+	</console-logging-formatter>
+	
+	<communication-logging>
+		<enable>false</enable>
+	</communication-logging>
+
+	<object-pool>
+		<max-active>-1</max-active>
+		<max-idle>25</max-idle>
+		<init-size>5</init-size>
+	</object-pool>
+
+</quickserver>

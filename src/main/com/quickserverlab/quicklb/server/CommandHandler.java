@@ -46,7 +46,7 @@ public class CommandHandler implements ClientEventHandler, ClientBinaryHandler {
 		logger.log(Level.FINEST, "SocketBasedHost: {0}", host);
 		
 		Data data = (Data) handler.getClientData();
-		data.setRemoteHost(host.getInetSocketAddress().getHostName());
+		data.setRemoteHost(host.getInetSocketAddress().getHostString());
 		data.setRemotePort(host.getInetSocketAddress().getPort());
 		
 		data.init(new Socket(data.getRemoteHost(), 

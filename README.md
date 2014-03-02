@@ -11,9 +11,9 @@ Quick Start
 ------------
  * Use <code>ant</code> to build
  * Start LB using provided .bat or .sh file
-  * <code>sh QuickLB.sh</code>
+  * <code>sh QuickLB.sh</code> or <code>sh QuickLB-d.sh</code>
   * <code>QuickLB.bat</code>
- * Access Web Admin via browser <code>http://IP:8282<code>
+ * Access Web Admin via browser <code>http://Server IP:8282/<code>
 
 Website
 ---------------------

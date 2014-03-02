@@ -7,6 +7,14 @@ QuickLB is simple yet powerful. Its simple design promotes quick deployment, eas
 
 This is still very beta and under active development.
 
+Quick Start
+------------
+ * Use <code>ant</code> to build
+ * Start LB using provided .bat or .sh file
+  * <code>sh QuickLB.sh</code>
+  * <code>QuickLB.bat</code>
+ * Access Web Admin via browser <code>http://IP:8282<code>
+
 Website
 ---------------------
  * https://github.com/QuickServerLab/QuickLB

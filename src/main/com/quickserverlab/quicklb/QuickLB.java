@@ -84,6 +84,8 @@ public class QuickLB {
 			} catch (Exception ex) {
 				logger.log(Level.SEVERE, "Error: "+ex, ex);
 			}
+			
+			System.out.println("\nAdmin Url "+server.getURI());
 		}
 	}
 	

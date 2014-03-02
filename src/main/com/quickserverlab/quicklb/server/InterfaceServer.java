@@ -6,12 +6,11 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.*;
 import org.quickserver.net.*;
 import org.quickserver.net.server.*;
 
-import java.util.logging.*;
 import org.quickserver.util.TextFile;
 
 /**
@@ -392,22 +391,41 @@ public class InterfaceServer {
 		this.name = name;
 	}
 	
+	/*
+	Test Code
 	static {
 		Iterator<String> iterator = interfaces.keySet().iterator();
 		String key = null;
-		InterfaceServer is = null;
-		
-		
+		InterfaceServer is = null;		
 		
 		while(iterator.hasNext()) {
 			key = iterator.next();
 			is = interfaces.get(key);
 			
-			//is.getParentDir().renameTo();
+			InterfaceHosts ih = is.getInterfaceHosts();
+			HostList hostList = ih.getHostList();
+			//hostList.getHostByName(null)
+			List<SocketBasedHost> list = (List<SocketBasedHost>)hostList.getFullList();
+			if(list.isEmpty()) {
+				
+			}
+			for(int i=0;i<list.size();i++) {
+				
+				list.get(i).getInetSocketAddress().getPort();
+				
+				list.get(i).getResponseTextToExpect()
+			}
 			
-			is.getQuickserver().isRunningSecure();
-			is.getQuickserver().getPort();
-			is.isAutoStart();
+			SocketBasedHost sbh = new SocketBasedHost();
+			sbh.setName();
+			sbh.setSecure();
+			sbh.setStatus(Host.UNKNOWN);
+			sbh.setInetSocketAddress(null, port);
+			sbh.setTimeout();
+			sbh.setTextToExpect();
+			sbh.setRequestText();			
+			sbh.setResponseTextToExpect();
 		}
 	}
+	*/
 }

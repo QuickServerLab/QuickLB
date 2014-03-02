@@ -18,7 +18,7 @@
 			</td>
 			<td>
 				<input name="name" size="20" type="text"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -27,7 +27,7 @@
 			</td>
 			<td>
 				<input name="ip" size="20" value="0.0.0.0" type="text"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -36,7 +36,7 @@
 			</td>
 			<td>
 				<input name="port" size="10" value="80" type="number"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -45,7 +45,7 @@
 			</td>
 			<td>
 				<input name="auto_start" value="true" type="checkbox" checked />
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -54,7 +54,7 @@
 			</td>
 			<td>
 				<input name="ssl_offloaded" value="true" type="checkbox" disabled />
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -63,14 +63,14 @@
 			</td>
 			<td>
 				<input name="max_connection" size="10" value="100" type="number"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
 			<td colspan="2" align="center">
 				
 				<input name="submit" size="10" value="Add Interface" type="submit"/>
-			<td>
+			</td>
 		</tr>
 </table>
 </form>

@@ -40,7 +40,7 @@
 			<td>
 				<input name="newname" size="20" type="text" value="<%=interfaceName%>"/>
 				
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -58,7 +58,7 @@
 				<input name="submit" size="10" value="Start Interface" type="submit"/>
 				&nbsp;
 				<input name="submit" size="10" value="Stop Interface" type="submit"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -67,7 +67,7 @@
 			</td>
 			<td>
 				<%=is.getQuickserver().getClientCount()%>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -76,7 +76,7 @@
 			</td>
 			<td>
 				<%=is.getQuickserver().getUptime()%>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -91,7 +91,7 @@
 			</td>
 			<td>
 				<input name="ip" size="20" value="<%=is.getQuickserver().getBindAddr().getHostAddress()%>" type="text"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -100,7 +100,7 @@
 			</td>
 			<td>
 				<input name="port" size="10" value="<%=is.getQuickserver().getPort()%>" type="number"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -112,7 +112,7 @@
 					if(is.isAutoStart()) {
 						%>checked<%
 					}%> />
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -121,7 +121,7 @@
 			</td>
 			<td>
 				<input name="ssl_offloaded" value="true" type="checkbox" disabled />
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -130,7 +130,7 @@
 			</td>
 			<td>
 				<input name="max_connection" size="10" value="<%=is.getQuickserver().getMaxConnection()%>" type="number"/>
-			<td>
+			</td>
 		</tr>
 
 		<tr>
@@ -140,7 +140,7 @@
 				&nbsp;&nbsp;&nbsp;
 				<input name="submit" size="10" value="Delete Interface" type="submit"/>
 				<br/>&nbsp;<br/>
-			<td>
+			</td>
 		</tr>
 </table>
 </form>

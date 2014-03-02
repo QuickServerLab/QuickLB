@@ -12,7 +12,8 @@
 </head>
 <body>
 <center>
-<h5>Please wait</h5>
+<h5>Please wait</h5><br/>
+<img src="../../pics/loader.gif" />
 </center>
 </body>
 </html>

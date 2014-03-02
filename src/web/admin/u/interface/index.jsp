@@ -2,6 +2,24 @@
 <head>
 	<title>QuickLB Admin</title>
 </head>
+<%
+	String interfaceName = request.getParameter("name");	
+	String action = request.getParameter("action");
+	boolean showGif = false;
+	if(action!=null) {
+		if(action.equals("restart")) {
+			showGif = true;
+			%>
+			<meta http-equiv="refresh" content="3; URL=editInterfaceAction.jsp?name=<%=interfaceName%>&submit=Restart Interface">
+			<%
+		} else if(action.equals("reloadall")) {
+			showGif = true;
+			%>
+			<meta http-equiv="refresh" content="3; URL=reloadInterfaceAction.jsp">
+			<%
+		}
+	}
+%>
 <body>
 
 <center><h4>Interface Admin</h4></center>
@@ -30,7 +48,16 @@ String msg = request.getParameter("msg");
 
 	if(msg!=null) {
 	%>
-	<h5><font color="green"><%=msg%></font></h5>
+	<h5>
+		<font color="green"><%=msg%></font>
+		<%
+			if(showGif) {
+		%>
+		<img src="../../pics/loader_small.gif" valign="bottom"/>
+		<%
+			}
+		%>
+	</h5>
 	<%
 	}
 %>

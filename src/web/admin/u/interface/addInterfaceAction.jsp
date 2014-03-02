@@ -61,7 +61,7 @@
 		is.saveQSXmlToDisk(newXml);
 		
 		
-		response.sendRedirect("index.jsp?msg=Interface Added! Reload to view the same");
+		response.sendRedirect("index.jsp?msg=Interface Added! Reloading All Interfaces&action=reloadall");
 		return;
 		
 	}

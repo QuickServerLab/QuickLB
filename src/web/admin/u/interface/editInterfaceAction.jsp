@@ -24,6 +24,25 @@
 	}
 
 	String submit = request.getParameter("submit");
+	if("Restart Interface".equals(submit)) {
+		if(is.getQuickserver().isClosed()==false) {			
+			boolean flag = is.getQuickserver().stopService();
+
+			if(flag==false) {
+				response.sendRedirect("index.jsp?error=Error stopping Interface");
+			}
+		}
+		boolean flag = is.getQuickserver().startService();
+
+		if(flag) {
+			response.sendRedirect("index.jsp?msg=Interface started");
+		} else {
+			response.sendRedirect("index.jsp?error=Error starting Interface");
+		}
+		
+		return;
+	}
+
 	if("Start Interface".equals(submit)) {
 		if(is.getQuickserver().isClosed()==false) {
 			response.sendRedirect("index.jsp?error=Interface already running");
@@ -115,7 +134,7 @@
 			}
 			return;
 		} else {
-			response.sendRedirect("index.jsp?msg=Interface updated!");
+			response.sendRedirect("index.jsp?msg=Interface updated! Restarting Interface&name="+interfaceName+"&action=restart");
 			return;
 		}
 	}
@@ -129,7 +148,7 @@
 		boolean flag = is.deleteInterface();
 
 		if(flag) {
-			response.sendRedirect("index.jsp?msg=Interface deleted!");
+			response.sendRedirect("index.jsp?msg=Interface deleted! Reloading All Interfaces&action=reloadall");
 		} else {
 			response.sendRedirect("index.jsp?error=Interface delete failed!");
 		}

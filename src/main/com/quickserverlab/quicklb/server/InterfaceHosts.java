@@ -2,7 +2,9 @@ package com.quickserverlab.quicklb.server;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +19,7 @@ import org.quickserver.net.client.loaddistribution.impl.RoundRobinLoadPattern;
 import org.quickserver.net.client.monitoring.HostMonitoringService;
 import org.quickserver.net.client.monitoring.HostStateListener;
 import org.quickserver.net.client.monitoring.impl.SocketMonitor;
+import org.quickserver.util.TextFile;
 
 /**
  *
@@ -69,8 +72,15 @@ public class InterfaceHosts {
 			}
 			
 			if(fname.endsWith(".txt")==false) {
-				if(fname.equals("interface.ini")==false && 
-					fname.equals("interface.xml")==false)
+				if(fname.endsWith(".req_data") || fname.endsWith(".res_data") 
+						|| fname.endsWith(".welcome_data")) {
+					continue;					
+				}
+				
+				if(fname.equals("interface.ini") || fname.equals("interface.xml")) {
+					continue;
+				}
+				
 				logger.log(Level.FINE, "unknown file.. will skip:{0}", list[i].getName());
 				continue;
 			}
@@ -101,7 +111,7 @@ public class InterfaceHosts {
 					hostName = hostName.substring(0, extIndex);
 				}
 						
-				logger.log(Level.FINE, "hostName: {0}", interfaceName + "_" + hostName);
+				logger.log(Level.FINE, "hostName: {0}", interfaceName + "|" + hostName);
 				
 				try {
 					String type = config.getProperty("type");
@@ -110,48 +120,65 @@ public class InterfaceHosts {
 				
 					if(host==null) {
 						logger.log(Level.WARNING, "No host configured! for {0}", 
-							interfaceName + "_" + hostName);
+							interfaceName + "|" + hostName);
 						continue;
 					}
 					
 					if(port==0) {
 						logger.log(Level.WARNING, "No port configured! for {0}", 
-							interfaceName + "_" + hostName);
+							interfaceName + "|" + hostName);
 						continue;
 					}
 					
 					SocketBasedHost sbhost = new SocketBasedHost(host, port);
-					sbhost.setName(interfaceName + "_" + hostName);
+					sbhost.setName(interfaceName + "|" + hostName);
 					
 					if(type.equals("sslsocket")) {
 						sbhost.setSecure(true);
 					}
 					
-					String temp = config.getProperty("maintainance");
+					String temp = config.getProperty("maintenance");
 					if("true".equals(temp)) {
 						sbhost.setStatus(Host.MAINTENANCE);
 					}
 					
-					temp = config.getProperty("TextToExpect");
+					temp = null;
+					
+					File file = new File(list[i].getParent()+
+							File.separator+hostName+".welcome_data");
+					if(file.canRead()) {
+						temp = TextFile.read(file); //config.getProperty("TextToExpect");
+					}
 					if(temp!=null && temp.trim().length()!=0) {
 						sbhost.setTextToExpect(temp);
 					} else {
 						sbhost.setTextToExpect(null);
 					}
+					temp = null;
 					
-					temp = config.getProperty("RequestText");
+					file = new File(list[i].getParent()+
+							File.separator +hostName+".req_data");
+					if(file.canRead()) {
+						temp = TextFile.read(file); //config.getProperty("RequestText");
+					}
 					if(temp!=null && temp.trim().length()!=0) {
 						sbhost.setRequestText(temp);
 					} else {
 						sbhost.setRequestText(null);
 					}
+					temp = null;
 					
-					temp = config.getProperty("ResponseTextToExpect");
+					file = new File(list[i].getParent()+
+							File.separator + hostName+".res_data");
+					if(file.canRead()) {
+						temp = TextFile.read(file); //config.getProperty("ResponseTextToExpect");
+					}
 					if(temp!=null && temp.trim().length()!=0) {
 						sbhost.setResponseTextToExpect(temp);
 					} else {
 						sbhost.setResponseTextToExpect(null);
 					}
+					temp = null;
 					
 					temp = config.getProperty("timeout");
 					sbhost.setTimeout(Integer.parseInt(temp));
@@ -231,5 +258,208 @@ public class InterfaceHosts {
 	 */
 	public void setLoadDistributor(LoadDistributor loadDistributor) {
 		this.loadDistributor = loadDistributor;
+	}
+	
+	public static String getRealNodeName(Host host) {
+		String name = host.getName();
+		int i = name.indexOf("|");
+		return name.substring(i+1);
+	}
+	
+	public boolean deleteSocketBasedHostFromDisk(InterfaceServer is, SocketBasedHost host) {
+		logger.log(Level.INFO, "is: {0}host: {1}", new Object[]{is.getName(), host.getName()});
+		try {
+			File location = new File(
+				is.getParentDir().getAbsolutePath() +
+						File.separator + getRealNodeName(host) + ".txt");
+			logger.log(Level.INFO, "location: {0}", location);
+			if(location.canRead()) {
+				boolean flag = location.delete();
+				logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+			}
+			
+			location = new File(
+				is.getParentDir().getAbsolutePath() +
+						File.separator + getRealNodeName(host) + ".welcome_data");
+			logger.log(Level.INFO, "location: {0}", location);
+			if(location.canRead()) {
+				boolean flag = location.delete();
+				logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+			}
+			
+			location = new File(
+				is.getParentDir().getAbsolutePath() +
+						File.separator+ getRealNodeName(host) + ".req_data");
+			logger.log(Level.INFO, "location: {0}", location);
+			if(location.canRead()) {
+				boolean flag = location.delete();
+				logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+			}
+			
+			location = new File(
+				is.getParentDir().getAbsolutePath() +
+						File.separator+ getRealNodeName(host) + ".res_data");
+			logger.log(Level.INFO, "location: {0}", location);
+			if(location.canRead()) {
+				boolean flag = location.delete();
+				logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+			}
+			
+			return true;
+		} catch (Exception io) {
+			logger.log(Level.WARNING, "Error: "+io, io);
+			return false;
+		}
+	}
+	
+	public boolean saveSocketBasedHostToDisk(InterfaceServer is, SocketBasedHost host, String newName, boolean defaultFalg) {
+		OutputStream output = null;
+		logger.log(Level.INFO, "is: {0}host: {1}-{2}", new Object[]{is.getName(), host.getName(), newName});
+		try {
+			String oldName = getRealNodeName(host);
+			boolean rename = false;
+			if(newName!=null && oldName.equals(newName)==false) {
+				//rename req.
+				rename = true;
+			}
+			
+			if(newName==null) {
+				newName = oldName;
+			}
+			
+			Properties hostConfig = new Properties();
+			
+			if(host.isSecure()) {
+				hostConfig.setProperty("type", "sslsocket");
+			} else {
+				hostConfig.setProperty("type", "socket");
+			}
+			
+			if(host.getStatus()==Host.MAINTENANCE) {
+				hostConfig.setProperty("maintenance", "true");
+			} else {
+				hostConfig.setProperty("maintenance", "false");
+			}
+			
+			hostConfig.setProperty("host", host.getInetSocketAddress().getHostString());
+			hostConfig.setProperty("port", ""+host.getInetSocketAddress().getPort());
+			
+			hostConfig.setProperty("timeout", ""+host.getTimeout());
+			
+			if(defaultFalg) {
+				hostConfig.setProperty("default", "1");
+			} else {
+				hostConfig.setProperty("default", "0");
+			}
+			
+			File location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator+ newName + ".txt");
+			
+			File commentsFile = new File(
+					"./conf/node_template/node_comment.ini");
+			String comments = TextFile.read(commentsFile);
+			
+			output = new FileOutputStream(location);
+
+			// save properties to project root folder
+			hostConfig.store(output, comments);
+			
+			if(host.getTextToExpect()!=null && host.getTextToExpect().length()!=0) {
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + newName + ".welcome_data");
+				logger.log(Level.INFO, "location: {0}", location);
+				TextFile.write(location, host.getTextToExpect());
+			} else {
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + newName + ".welcome_data");
+				if(location.canRead()) {
+					boolean flag = location.delete();
+					logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+				}
+			}
+			
+			if(host.getRequestText()!=null && host.getRequestText().length()!=0) {
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + newName + ".req_data");
+				logger.log(Level.INFO, "location: {0}", location);
+				TextFile.write(location, host.getRequestText());
+			} else {
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + newName + ".req_data");
+				if(location.canRead()) {
+					boolean flag = location.delete();
+					logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+				}
+			}
+			
+			if(host.getResponseTextToExpect()!=null && host.getResponseTextToExpect().length()!=0) {
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + newName + ".res_data");
+				logger.log(Level.INFO, "location: {0}", location);
+				TextFile.write(location, host.getResponseTextToExpect());
+			} else {
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + newName + ".res_data");
+				if(location.canRead()) {
+					boolean flag = location.delete();
+					logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+				}
+			}
+			
+			if(rename) {
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + oldName + ".txt");
+				
+				if(location.canRead()) {
+					boolean flag = location.delete();
+					logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+				}
+				
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + oldName + ".welcome_data");
+				if(location.canRead()) {
+					boolean flag = location.delete();
+					logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+				}
+				
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + oldName + ".req_data");
+				if(location.canRead()) {
+					boolean flag = location.delete();
+					logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+				}
+				
+				location = new File(
+					is.getParentDir().getAbsolutePath() +
+							File.separator + oldName + ".res_data");
+				if(location.canRead()) {
+					boolean flag = location.delete();
+					logger.log(Level.INFO, "file {0}; deleted: {1}", new Object[]{location, flag});
+				}
+			}
+
+			return true;
+		} catch (IOException io) {
+			logger.log(Level.WARNING, "Error: "+io, io);
+			return false;
+		} finally {
+			if (output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					logger.log(Level.WARNING, "Error closing: "+e, e);
+				}
+			}
+		}
 	}
 }

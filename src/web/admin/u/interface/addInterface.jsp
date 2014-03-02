@@ -35,7 +35,7 @@
 				Interface Port
 			</td>
 			<td>
-				<input name="port" size="10" value="80" type="number"/>
+				<input name="port" size="10" value="8080" type="number"/>
 			</td>
 		</tr>
 

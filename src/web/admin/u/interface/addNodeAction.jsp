@@ -25,9 +25,19 @@
 	}
 
 	InterfaceHosts ih = is.getInterfaceHosts();
+	if(ih==null) {
+		response.sendRedirect("index.jsp?error=Interface may not be started. Please check if interface is running!");
+		return;
+	}
+
 	HostList hostList = ih.getHostList();
 
 	String nodeName = request.getParameter("node_name");
+	if(hostList==null) {
+		response.sendRedirect("index.jsp?error=Interface may not be started. Please check if interface is running!");
+		return;
+	}
+
 	SocketBasedHost host = (SocketBasedHost) hostList.getHostByName(interfaceName+"|"+nodeName);
 	if(host!=null) {
 		response.sendRedirect("editNodes.jsp?name="+interfaceName+"&error=Bad Host Name passed. Already exists!");

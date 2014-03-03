@@ -5,11 +5,14 @@
 	<property name="main.build.dir"  value="build/mainclasses" />
 	<property name="dist.dir"   value="dist" />
 	<property name="flag.debug"   value="true" />
-
+	
+	
 	<target name="clean">
 		<delete dir="${main.build.dir}" />
 		<delete dir="${test.build.dir}" />
 		<delete dir="${client.build.dir}" />
+		<delete file="${dist.dir}/${app.name}.jar" />
+		
 	</target>
 
 	<path id="project.classpath">
@@ -17,31 +20,18 @@
 			<include name="**/*.jar"/>
 		</fileset>
 		<fileset dir="./jetty/">
-			<include name="start.jar"/>
-		</fileset>
-		<fileset dir="./jetty/lib/">
-			<include name="**/*.jar"/>
-		</fileset>		
+			<include name="jetty-cp.jar"/>
+		</fileset>	
 	</path>
 	
-
-	<!-- main jar -->
-	<target name="main_compile"  depends="clean">
+	<target name="jetty_cp">
+		<delete file="jetty/jetty-cp.jar" />
 		<mkdir dir="${main.build.dir}"/>
-		<javac srcdir="src/main/" destdir="${main.build.dir}" debug="${flag.debug}" 
-				deprecation="on" optimize="on" includeantruntime="false" source="1.6" target="1.6">
-			<include name="**/*.java"/>
-			<classpath refid="project.classpath"/>
-		</javac>
-	</target>
-
-	<target name="main_jar" depends="main_compile">
-		<mkdir dir="${dist.dir}"/>
-		<jar jarfile="${dist.dir}/${app.name}.jar"
-			basedir="${main.build.dir}" includes="**" manifest="src/main/QuickLB.MF"/>
-		
 		<!-- jetty -->
 		<path id="jetty-build-classpath">
+			<fileset dir="jetty">
+				<include name="*.jar"/>
+			</fileset>
 			<fileset dir="jetty/lib">
 				<include name="**/*.jar"/>
 			</fileset>
@@ -56,7 +46,24 @@
 				<attribute name="Class-Path" value="${jetty-lib.list}"/>
 			</manifest>
 		</jar>
-		<!-- jetty -->
+		<!-- jetty -->		
+	</target>
+
+	<!-- main jar -->
+	<target name="main_compile"  depends="clean, jetty_cp">
+		<mkdir dir="${main.build.dir}"/>
+		
+		<javac srcdir="src/main/" destdir="${main.build.dir}" debug="${flag.debug}" 
+				deprecation="on" optimize="on" includeantruntime="false" source="1.6" target="1.6">
+			<include name="**/*.java"/>
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+
+	<target name="main_jar" depends="main_compile">
+		<mkdir dir="${dist.dir}"/>
+		<jar jarfile="${dist.dir}/${app.name}.jar"
+			basedir="${main.build.dir}" includes="**" manifest="src/main/QuickLB.MF"/>
 	</target>
 	<!-- main jar -->
 	

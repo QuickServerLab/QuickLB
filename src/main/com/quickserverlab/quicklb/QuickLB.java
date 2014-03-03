@@ -68,6 +68,9 @@ public class QuickLB {
 		//start or stop jetty - TODO"
 		String flag = config.getProperty("enable_web_admin");
 		if("true".equals(flag)) {
+			
+			System.setProperty("org.apache.jasper.compiler.disablejsr199", "true");
+				
 			String port = config.getProperty("web_admin_port");
 			
 			Server server = new Server(Integer.parseInt(port));

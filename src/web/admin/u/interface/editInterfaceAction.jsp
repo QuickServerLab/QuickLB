@@ -26,13 +26,13 @@
 	String submit = request.getParameter("submit");
 	if("Restart Interface".equals(submit)) {
 		if(is.getQuickserver().isClosed()==false) {			
-			boolean flag = is.getQuickserver().stopService();
+			boolean flag = is.stop();
 
 			if(flag==false) {
 				response.sendRedirect("index.jsp?error=Error stopping Interface");
 			}
 		}
-		boolean flag = is.getQuickserver().startService();
+		boolean flag = is.start();
 
 		if(flag) {
 			response.sendRedirect("index.jsp?msg=Interface started");
@@ -49,7 +49,7 @@
 			return;
 		}
 		
-		boolean flag = is.getQuickserver().startService();
+		boolean flag = is.start();
 
 		if(flag) {
 			response.sendRedirect("index.jsp?msg=Interface started");
@@ -65,7 +65,7 @@
 			return;
 		}
 		
-		boolean flag = is.getQuickserver().stopService();
+		boolean flag = is.stop();
 
 		if(flag) {
 			response.sendRedirect("index.jsp?msg=Interface stopped");

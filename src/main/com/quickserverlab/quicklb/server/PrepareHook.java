@@ -18,7 +18,7 @@ public class PrepareHook implements ServerHook {
 	private QuickServer quickserver;
 
 	public String info() {
-		return "Init Server Hook to setup cache.";
+		return "Init Server Hook to setup InterfaceHosts.";
 	}
 
 	public void initHook(QuickServer quickserver) {
@@ -42,6 +42,7 @@ public class PrepareHook implements ServerHook {
 				iHosts.init((File) storeObj[0], interfaceServer);
 				
 				if(interfaceServer.getInterfaceHosts()!=null) {
+					logger.info("shutting down old InterfaceHosts");
 					interfaceServer.getInterfaceHosts().shutdown();
 				}
 				interfaceServer.setInterfaceHosts(iHosts);

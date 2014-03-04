@@ -34,11 +34,12 @@ public class InterfaceServer {
 	
 	public static void initInterfaces() {
 		File[] list = FileUtil.getFilesList("./interfaces");
-		logger.fine("loading host files to monitor.");
+		
 		
 		Iterator<String> iterator = interfaces.keySet().iterator();
 		if(iterator.hasNext()) {
 			System.out.println();
+			logger.fine("Unloading interfaces\t[Start]");
 			System.out.println("Unloading interfaces\t[Start]");		
 			String key = null;
 			InterfaceServer is = null;
@@ -54,10 +55,12 @@ public class InterfaceServer {
 				}
 			}		
 			System.out.println("Unloading interfaces\t[Done]");
+			logger.fine("Unloading interfaces\t[Done]");
 			interfaces.clear();
 		}
 		
 		System.out.println();
+		logger.fine("Loading interfaces\t[Start]");
 		System.out.println("Loading interfaces\t[Start]");
 		for (int i = 0; i < list.length; i++) {
 			if (list[i].isFile()) {
@@ -67,6 +70,7 @@ public class InterfaceServer {
 			InterfaceServer.loadInterface(list[i]);			
 		}		
 		System.out.println("Loading interfaces\t[Done]");
+		logger.fine("Loading interfaces\t[Done]");
 	}
 	
 	
@@ -74,9 +78,9 @@ public class InterfaceServer {
 		InterfaceServer is = getInterfaces().get(path.getName());
 		
 		try {
-			logger.log(Level.FINE, "is: {0}", is);
+			logger.log(Level.INFO, "loadInterface is: {0} : {1}", new Object[]{path, is});
 			if(is!=null) {
-				logger.log(Level.FINE, "is.isUp: {0}", is.isUp());
+				logger.log(Level.INFO, "is.isUp: {0}", is.isUp());
 				if(is.isUp()) {
 					System.out.print("  "+path.getName()+" : ");
 					is.stop();
@@ -91,8 +95,13 @@ public class InterfaceServer {
 			getInterfaces().put(path.getName(), is);
 
 			if(is!=null) {
-				logger.log(Level.FINE, "is AutoStart: {0}", is.isAutoStart());
+				logger.log(Level.INFO, "is AutoStart: {0}", is.isAutoStart());
+				
 				if(is.isAutoStart()) {
+					logger.log(Level.INFO, "Starting Interface {0} : {1}:{2}", 
+							new Object[]{path.getName(), 
+								is.getQuickserver().getBindAddr().getHostAddress(), 
+								is.getQuickserver().getPort()});
 					is.start();
 					System.out.print("  "+path.getName()+" : ");
 					System.out.print(" Started "+
@@ -100,7 +109,7 @@ public class InterfaceServer {
 							is.getQuickserver().getPort());
 					System.out.println();
 				}
-				logger.log(Level.FINE, "is.isUp: {0}", is.isUp());
+				logger.log(Level.INFO, "is.isUp: {0}", is.isUp());
 			}
 		} catch(Throwable e) {
 			logger.log(Level.WARNING, "Error: "+e, e);
@@ -166,6 +175,7 @@ public class InterfaceServer {
 	public boolean start() throws AppException {
 		if(getQuickserver()==null) return false;
 		
+		refreshConfig();
 		getQuickserver().startServer();
 		
 		return true;
@@ -183,7 +193,7 @@ public class InterfaceServer {
 		logger.log(Level.WARNING, "Deleting interface {0}", getName());
 		if(isUp()) throw new AppException("Interface is still running!");
 		
-		logger.info("Dir: "+getParentDir());
+		logger.log(Level.INFO, "Dir: {0}", getParentDir());
 		boolean flag = getParentDir().delete();
 		logger.log(Level.WARNING, "Deleting interface {0}", flag);
 		if(flag) {
@@ -216,37 +226,39 @@ public class InterfaceServer {
 		return is;
 	}
 	
-	public static InterfaceServer create(File path)	throws Exception {
+	public static InterfaceServer create(File path)	throws AppException {
 		InterfaceServer is = new InterfaceServer();
-		
+		is.setParentDir(path);
+		is.refreshConfig();
+		return is;
+	}
+	
+	private void refreshConfig() throws AppException {		
 		try {
-			logger.log(Level.FINE, "path: {0}", path);
-			is.setName(path.getName());
+			logger.log(Level.FINE, "path: {0}", getParentDir());
+			setName(getParentDir().getName());
 			
 			QuickServer myServer = new QuickServer();
-			is.setQuickserver(myServer);
+			setQuickserver(myServer);
 
-			String confFile = path.getCanonicalPath() + File.separator + "interface.xml";
+			String confFile = getParentDir().getCanonicalPath() + File.separator + "interface.xml";
 			logger.log(Level.FINE, "confFile: {0}", confFile);
 
 			Object config[] = new Object[] {confFile};
 			myServer.initService(config);
 			
 			Properties _config = FileUtil.loadPropertiesFromFile(
-				path.getCanonicalPath() + File.separator + "interface.ini");
-			is.setConfig(_config);
+				getParentDir().getCanonicalPath() + File.separator + "interface.ini");
+			logger.log(Level.FINE, "config: {0}", _config);
+			setConfig(_config);
 			
-			Object[] store = new Object[]{path, is};
+			Object[] store = new Object[]{getParentDir(), this};
 			myServer.setStoreObjects(store);
-			
-			is.setParentDir(path);
-			
-			myServer.setServerBanner("");		
-			
-			return is;
-		} catch(Exception e) {
-			logger.log(Level.WARNING, "Error: "+e, e);
-			throw e;
+						
+			myServer.setServerBanner("");
+		} catch(IOException e) {
+			logger.log(Level.WARNING, "IOError: "+e, e);
+			throw new AppException(e.getMessage());
 		}
 	}
 

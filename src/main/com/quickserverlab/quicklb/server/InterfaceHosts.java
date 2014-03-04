@@ -42,6 +42,7 @@ public class InterfaceHosts {
 	}
 	
 	public void init(File path, InterfaceServer interfaceServer) {
+		logger.log(Level.INFO, "Init hosts for {0}", interfaceServer.getName());
 		File interfaceDir = path;
 		if(interfaceDir.canRead()==false) {
 			logger.log(Level.SEVERE, "can''t read interface dir: {0}", interfaceDir);
@@ -197,6 +198,8 @@ public class InterfaceHosts {
 
 		setHostList(_hostList);
 		
+		logger.log(Level.INFO, "MonitoringIntervalInSec: {0}", interfaceServer.getMonitoringIntervalInSec());
+		
 		hostMonitoringService = new HostMonitoringService();
 		hostMonitoringService.setHostList(_hostList);
 		hostMonitoringService.setHostMonitor(new SocketMonitor());
@@ -220,7 +223,8 @@ public class InterfaceHosts {
 		HostMonitoringService.add(hostMonitoringService);
 		
 		setLoadDistributor(new LoadDistributor(getHostList()));
-		setLoadDistributor(getLoadDistributor());
+	
+		
 		if("roundrobin".equals(interfaceServer.getDistribution())) {
 			getLoadDistributor().setLoadPattern(new RoundRobinLoadPattern());
 		} else if("failover".equals(interfaceServer.getDistribution())) {
@@ -230,6 +234,8 @@ public class InterfaceHosts {
 		} else {
 			getLoadDistributor().setLoadPattern(new RandomLoadPattern());
 		}
+		
+		logger.log(Level.INFO, "LoadDistributor: {0}", getLoadDistributor().getLoadPattern().toString());
 	}
 
 	/**

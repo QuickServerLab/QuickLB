@@ -192,6 +192,8 @@ String msg = request.getParameter("msg");
 			<td>Default</td>
 			
 			<td>Maintenance</td>
+			
+			<td>Status</td>
 
 			<td>Up Time</td>
 
@@ -243,6 +245,8 @@ String msg = request.getParameter("msg");
 						<td><%=i==0?true:false%></td>
 
 						<td><%=list.get(i).getStatus()==Host.MAINTENANCE?true:false%></td>
+						
+						<td><%=list.get(i).getStatus()%></td>
 
 						<td><%=list.get(i).getUptime()%></td>
 

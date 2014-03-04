@@ -140,6 +140,15 @@
 		
 		<tr>
 			<td>
+				Status
+			</td>
+			<td>
+				<%=host.getStatus()%>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
 				Up Time
 			</td>
 			<td>

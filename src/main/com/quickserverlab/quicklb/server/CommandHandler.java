@@ -8,6 +8,7 @@ import org.quickserver.net.server.ClientHandler;
 import java.util.logging.*;
 import org.quickserver.net.client.ClientInfo;
 import org.quickserver.net.client.SocketBasedHost;
+import org.quickserver.net.client.loaddistribution.LoadDistributor;
 import org.quickserver.net.server.QuickServer;
 
 /**
@@ -35,8 +36,8 @@ public class CommandHandler implements ClientEventHandler, ClientBinaryHandler {
 		ci.setInetAddress(handler.getSocket().getInetAddress());
 		ci.setClientKey(handler.getHostAddress());
 		
-		SocketBasedHost host = (SocketBasedHost) 
-			interfaceServer.getInterfaceHosts().getLoadDistributor().getHost(ci);
+		LoadDistributor lb = interfaceServer.getInterfaceHosts().getLoadDistributor();
+		SocketBasedHost host = (SocketBasedHost) lb.getHost(ci);
 		if(host==null) {
 			logger.warning("We do not have any host to send traffic to.. so closing it down");
 			handler.closeConnection();

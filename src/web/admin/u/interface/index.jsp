@@ -24,7 +24,11 @@
 
 <center><h4>Interface Admin</h4></center>
 
-<a href="../../index.jsp">Home</a> <br/>
+<%
+	String username = (String) session.getAttribute("username");
+%>
+
+<a href="index.jsp">Home</a> &nbsp;&nbsp; <a href="changePassword.jsp?user=<%=username%>">Change Password</a> |  <a href="/logout.jsp">Logout</a><br/><br/>
 
 Interface List 
 

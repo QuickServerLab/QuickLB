@@ -2,7 +2,8 @@
 <project name="QuickLB" default="all" basedir=".">
 	<property name="app.name"   value="QuickLB" />
 	<property name="build.dir"  value="build" />
-	<property name="main.build.dir"  value="build/mainclasses" />
+	<property name="main.build.dir"  value="${build.dir}/mainclasses" />
+	<property name="servlet.build.dir"  value="${build.dir}/servletclasses" />
 	<property name="dist.dir"   value="dist" />
 	<property name="flag.debug"   value="true" />
 	
@@ -19,9 +20,12 @@
 		<fileset dir="./lib/">
 			<include name="**/*.jar"/>
 		</fileset>
+		
 		<fileset dir="./jetty/">
 			<include name="jetty-cp.jar"/>
 		</fileset>	
+		
+		<pathelement path="${main.build.dir}"/>
 	</path>
 	
 	<target name="jetty_cp">
@@ -58,12 +62,24 @@
 			<include name="**/*.java"/>
 			<classpath refid="project.classpath"/>
 		</javac>
+		
+		<mkdir dir="${servlet.build.dir}"/>
+		
+		<javac srcdir="src/servlet/" destdir="${servlet.build.dir}" debug="${flag.debug}" 
+				deprecation="on" optimize="on" includeantruntime="false" source="1.6" target="1.6">
+			<include name="**/*.java"/>
+			<classpath refid="project.classpath"/>
+		</javac>
 	</target>
 
 	<target name="main_jar" depends="main_compile">
 		<mkdir dir="${dist.dir}"/>
+		
+		<jar jarfile="${dist.dir}/${app.name}-Servlet.jar"
+			basedir="${main.build.dir}" includes="**" />
+		
 		<jar jarfile="${dist.dir}/${app.name}.jar"
-			basedir="${main.build.dir}" includes="**" manifest="src/main/QuickLB.MF"/>
+			basedir="${servlet.build.dir}" includes="**" manifest="src/main/QuickLB.MF"/>
 	</target>
 	<!-- main jar -->
 	

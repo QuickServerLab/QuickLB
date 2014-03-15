@@ -20,6 +20,8 @@ public class FileUtil {
 	}
 	
 	public static Properties loadPropertiesFromFile(File file) {
+		if(file.canRead()==false) return null;
+		
 		FileInputStream myInputStream = null;
 		Properties config = null;
 		try {

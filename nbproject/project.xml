@@ -27,6 +27,12 @@
                     <location>src/web/admin</location>
                     <encoding>US-ASCII</encoding>
                 </source-folder>
+                <source-folder>
+                    <label>src/servlet</label>
+                    <type>java</type>
+                    <location>src/servlet</location>
+                    <encoding>US-ASCII</encoding>
+                </source-folder>
             </folders>
             <ide-actions>
                 <action name="build">
@@ -58,6 +64,10 @@
                         <label>src/web/admin</label>
                         <location>src/web/admin</location>
                     </source-folder>
+                    <source-folder style="packages">
+                        <label>src/servlet</label>
+                        <location>src/servlet</location>
+                    </source-folder>
                     <source-file>
                         <location>build.xml</location>
                     </source-file>
@@ -74,12 +84,10 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/3">
             <compilation-unit>
                 <package-root>src/main</package-root>
-                <classpath mode="compile">lib/commons-beanutils.jar:lib/commons-collections.jar:lib/commons-digester.jar:lib/commons-logging.jar:lib/commons-pool.jar:lib/log4j.jar:lib/metouia.jar:lib/QSAdminGUI.jar:lib/QuickServer.jar:lib/QuickServerClient.jar:jetty/start.jar:jetty/lib/jetty-server-9.1.2.v20140210.jar:jetty/lib/jetty-webapp-9.1.2.v20140210.jar:jetty/lib/jetty-servlet-9.1.2.v20140210.jar:jetty/lib/jetty-servlets-9.1.2.v20140210.jar:jetty/lib/jetty-deploy-9.1.2.v20140210.jar:jetty/lib/jetty-util-9.1.2.v20140210.jar</classpath>
-                <built-to>dist/QuickLB.jar</built-to>
-                <source-level>1.6</source-level>
-            </compilation-unit>
-            <compilation-unit>
                 <package-root>src/web/admin</package-root>
+                <package-root>src/servlet</package-root>
+                <classpath mode="compile">lib/commons-beanutils.jar:lib/commons-collections.jar:lib/commons-digester.jar:lib/commons-logging.jar:lib/commons-pool.jar:lib/log4j.jar:lib/metouia.jar:lib/QSAdminGUI.jar:lib/QuickServer.jar:lib/QuickServerClient.jar:jetty/start.jar:jetty/lib/jetty-server-9.1.2.v20140210.jar:jetty/lib/jetty-webapp-9.1.2.v20140210.jar:jetty/lib/jetty-deploy-9.1.2.v20140210.jar:jetty/lib/jetty-util-9.1.2.v20140210.jar:jetty/lib/servlet-api-3.1.jar:jetty/lib/jetty-servlet-9.1.2.v20140210.jar:jetty/lib/jetty-servlets-9.1.2.v20140210.jar</classpath>
+                <built-to>dist/QuickLB.jar</built-to>
                 <source-level>1.6</source-level>
             </compilation-unit>
         </java-data>

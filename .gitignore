@@ -3,3 +3,5 @@ build
 log
 dist
 nohup.out
+conf/salt.ini
+conf/users.ini

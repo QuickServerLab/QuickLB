@@ -4,11 +4,10 @@
 </head>
 <body>
 
+	<%@ include file="/u/header.jsp" %>
+	
 <center><h4>Add Node</h4></center>
 
-<a href="../../index.jsp">Home</a> <br/>
-
-<a href="index.jsp">Interface List</a><br/>&nbsp;<br/>
 
 <%@ page import="java.util.*" %>
 <%@ page import="com.quickserverlab.quicklb.server.*" %>
@@ -163,5 +162,7 @@
 		</tr>
 </table>
 </form>
+
+<%@ include file="/u/footer.jsp" %>
 </body>
 </html>

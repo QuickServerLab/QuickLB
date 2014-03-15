@@ -6,42 +6,64 @@
 	}
 %>
 <html>
-<head>
-	<title>QuickLB Admin</title>
-</head>
-<body>
+	<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+	<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+	<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
+	<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+		<head>
+			<title>QuickLB Admin</title>
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+			<link rel="stylesheet" href="css/style.css">
+			<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		</head>
+		<body>
 
-<center><h3>Welcome to QuickLB Web Admin</h3></center>
+			<%@ include file="header.jsp" %>
 
-<%
-String error = request.getParameter("error");
+			<br/>&nbsp;<br/>
 
-	if(error!=null) {
-	%>
-	<h5><font color="red"><%=error%></font></h5>
-	<%
-	}
-%>
-<%
-	String msg = request.getParameter("msg");
+			<%
+			String error = request.getParameter("error");
 
-	if(msg!=null) {
-	%>
-	<h5>
-		<font color="green"><%=msg%></font>
-		
-	</h5>
-	<%
-	}
-%>
+				if(error!=null) {
+			%>
+			<section class="msg">
+			<h5><font color="red" size="3"><%=error%></font></h5>
+			</section>
+				<%
+				}
+				%>
+				<%
+					String msg = request.getParameter("msg");
+
+					if(msg!=null) {
+				%>
+				<section class="msg"><h5><font color="green" size="3"><%=msg%></font></h5></section>
+				<%
+				}
+				%>
 
 
-	<br/>
-	<form action="/UserValidatorServlet" method="post">
-		Username: <input type="text" name="username" value="admin"/><br/>
-		Password: <input type="password" name="password"/><br/>
-		<input type="submit" name="action" value="Login"/>
-	</form>
+			<br/>
+			<form action="/UserValidatorServlet" method="post" class="login">
+				<p>
+					<label for="username">Username:</label>
+					<input type="text" name="username" id="username" value="admin">
+				</p>
 
-</body>
-</html>
+				<p>
+					<label for="password">Password:</label>
+					<input type="password" name="password" id="password" value="">
+				</p>
+
+				<p class="login-submit">
+					<button type="submit" class="login-button">Login</button>
+				</p>
+
+				<input type="hidden" name="action" value="Login"/>
+			</form>
+
+			<%@ include file="footer.jsp" %>
+		</body>
+	</html>

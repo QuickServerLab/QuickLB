@@ -18,13 +18,15 @@
 	if(action!=null) {
 		if(action.equals("restart")) {
 			showGif = true;
-			%>
-			<meta http-equiv="refresh" content="3; URL=editInterfaceAction.jsp?name=<%=interfaceName%>&submit=Restart Interface">
-			<%
+	%>
+	<meta http-equiv="refresh" content="3; URL=editInterfaceAction.jsp?name=<%=interfaceName%>&submit=Restart Interface">
+	<%
 		}
 	}
-%>
+	%>
 	<body>
+
+		<%@ include file="/u/header.jsp" %>
 		<%
 			
 
@@ -39,25 +41,21 @@
 
 	<center><h4>Edit Nodes for <%=interfaceName%></h4></center>
 
-	<a href="../../index.jsp">Home</a> <br/>
 
-	<a href="index.jsp">Interface List</a><br/>&nbsp;<br/>
-	
-	
-<%
-String error = request.getParameter("error");
+	<%
+	String error = request.getParameter("error");
 
-	if(error!=null) {
+		if(error!=null) {
 	%>
 	<h5><font color="red"><%=error%></font></h5>
-	<%
-	}
-%>
-<%
-String msg = request.getParameter("msg");
+		<%
+		}
+		%>
+		<%
+		String msg = request.getParameter("msg");
 
-	if(msg!=null) {
-	%>
+			if(msg!=null) {
+		%>
 	<h5>
 		<font color="green"><%=msg%></font>
 		<%
@@ -70,7 +68,7 @@ String msg = request.getParameter("msg");
 	</h5>
 	<%
 	}
-%>
+	%>
 
 	<%@ page import="java.util.*" %>
 	<%@ page import="com.quickserverlab.quicklb.server.*" %>
@@ -184,15 +182,15 @@ String msg = request.getParameter("msg");
 			<td>Host</td>
 
 			<td>Port</td>
-			
+
 			<td>SSL</td>
 
 			<td>Timeout</td>
 
 			<td>Default</td>
-			
+
 			<td>Maintenance</td>
-			
+
 			<td>Status</td>
 
 			<td>Up Time</td>
@@ -217,60 +215,62 @@ String msg = request.getParameter("msg");
 			}
 
 			if(list==null || list.isEmpty()) {
-				%>
-				<tr>
-					<td colspan="10" align="center">
-						No Nodes Visible. Please Make sure interface is UP
-					</td>
-				</tr>
-				<%
-				
-			} else {
-				
-				
-				for(int i=0;i<list.size();i++) {
-
-					%>
-					<tr>
-						<td><%=InterfaceHosts.getRealNodeName(list.get(i))%></td>
-
-						<td><%=list.get(i).getInetSocketAddress().getHostString()%></td>
-
-						<td><%=list.get(i).getInetSocketAddress().getPort()%></td>
-
-						<td><%=list.get(i).isSecure()%></td>
-
-						<td><%=list.get(i).getTimeout()%></td>
-
-						<td><%=i==0?true:false%></td>
-
-						<td><%=list.get(i).getStatus()==Host.MAINTENANCE?true:false%></td>
-						
-						<td><%=list.get(i).getStatus()%></td>
-
-						<td><%=list.get(i).getUptime()%></td>
-
-
-						<form action="editNode.jsp" method="post">
-						<td>
-							
-								<input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
-								<input name="node_name" size="20" type="hidden" value="<%=list.get(i).getName()%>"/>
-								<input name="node_default" size="20" type="hidden" value="<%=i==0?true:false%>"/>
-								
-								<input name="submit" size="10" value="Edit Node" type="submit"/>
-							
-						</td>
-						</form>
-					</tr>
-
-					<%
-				}//for
-				
-			}
 		%>
+		<tr>
+			<td colspan="10" align="center">
+				No Nodes Visible. Please Make sure interface is UP
+			</td>
+		</tr>
+		<%
+				
+	} else {
+				
+				
+		for(int i=0;i<list.size();i++) {
 
-		
-	</table>
+		%>
+		<tr>
+			<td><%=InterfaceHosts.getRealNodeName(list.get(i))%></td>
+
+			<td><%=list.get(i).getInetSocketAddress().getHostString()%></td>
+
+			<td><%=list.get(i).getInetSocketAddress().getPort()%></td>
+
+			<td><%=list.get(i).isSecure()%></td>
+
+			<td><%=list.get(i).getTimeout()%></td>
+
+			<td><%=i==0?true:false%></td>
+
+			<td><%=list.get(i).getStatus()==Host.MAINTENANCE?true:false%></td>
+
+			<td><%=list.get(i).getStatus()%></td>
+
+			<td><%=list.get(i).getUptime()%></td>
+
+
+		<form action="editNode.jsp" method="post">
+			<td>
+
+				<input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
+				<input name="node_name" size="20" type="hidden" value="<%=list.get(i).getName()%>"/>
+				<input name="node_default" size="20" type="hidden" value="<%=i==0?true:false%>"/>
+
+				<input name="submit" size="10" value="Edit Node" type="submit"/>
+
+			</td>
+		</form>
+	</tr>
+
+	<%
+	}//for
+				
+}
+	%>
+
+
+</table>
+
+<%@ include file="/u/footer.jsp" %>
 </body>
 </html>

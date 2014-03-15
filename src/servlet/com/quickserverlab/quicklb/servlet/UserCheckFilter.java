@@ -2,7 +2,6 @@ package com.quickserverlab.quicklb.servlet;
 
 
 import java.io.IOException;
- 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -38,15 +38,15 @@ public class UserCheckFilter implements Filter {
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+	
         HttpSession session = req.getSession();
 		
         String username = (String) session.getAttribute("username");
          
         if (username == null){
-            RequestDispatcher rd = req.getRequestDispatcher("/login.jsp");
-            rd.forward(request, response);
-            return;
+			res.sendRedirect("/index.jsp");
         }
          
         chain.doFilter(request, response);

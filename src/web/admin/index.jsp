@@ -28,9 +28,7 @@
 
 				if(error!=null) {
 			%>
-			<section class="msg">
-			<h5><font color="red" size="3"><%=error%></font></h5>
-			</section>
+			<section class="msg"><h5><font color="red" size="3"><%=error%></font></h5></section>
 				<%
 				}
 				%>

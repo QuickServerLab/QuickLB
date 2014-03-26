@@ -5,3 +5,4 @@ dist
 nohup.out
 conf/salt.ini
 conf/users.ini
+/jetty/jetty-cp.jar

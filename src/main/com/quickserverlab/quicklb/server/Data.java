@@ -4,6 +4,7 @@ import org.quickserver.net.server.ClientData;
 
 import java.net.*;
 import java.io.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.*;
 import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.PoolableObjectFactory;
@@ -36,6 +37,8 @@ public class Data extends Thread implements ClientData, PoolableObject {
 	private final Object lock = new Object();
 	
 	private boolean stopThead;
+	
+	private InterfaceServer interfaceServer;
 
 	public Data(){
 		super();
@@ -79,6 +82,7 @@ public class Data extends Thread implements ClientData, PoolableObject {
 			}
 		} catch(Exception e) {
 			logger.log(Level.WARNING, "Error in init: "+e, e);
+			interfaceServer.getStats().getConErrorCount().incrementAndGet();
 			handler.closeConnection();
 			init = false;
 			closed = true;
@@ -130,6 +134,7 @@ public class Data extends Thread implements ClientData, PoolableObject {
 					logger.fine("got eof from remote pipe");
 					handler.closeConnection();
 				} else {
+					interfaceServer.getStats().getOutByteCount().addAndGet(data.length);
 					handler.sendClientBinary(data);
 					
 					if(logText) {
@@ -140,6 +145,9 @@ public class Data extends Thread implements ClientData, PoolableObject {
 					}
 				}
 			} catch(Exception e) {
+				if(interfaceServer!=null) {
+					interfaceServer.getStats().getConErrorCount().incrementAndGet();
+				}
 				init = false;
 				if(closed==false) {
 					logger.log(Level.WARNING, "Error in data thread : "+e, e);
@@ -162,9 +170,11 @@ public class Data extends Thread implements ClientData, PoolableObject {
 		}
 
 		try	{
+			interfaceServer.getStats().getInByteCount().addAndGet(data.length);
 			bout.write(data, 0, data.length);
 			bout.flush();
 		} catch(Exception e) {
+			interfaceServer.getStats().getConErrorCount().incrementAndGet();
 			if(closed==false) {
 				logger.log(Level.WARNING, "Error sending data: "+e, e);
 				throw new IOException(e.getMessage());
@@ -186,6 +196,8 @@ public class Data extends Thread implements ClientData, PoolableObject {
 		bout = null;
 		remoteHost = "127.0.0.1";
 		remotePort = 8080;
+		
+		setInterfaceServer(null);
 	}
 	
 	public boolean isPoolable() {
@@ -221,10 +233,10 @@ public class Data extends Thread implements ClientData, PoolableObject {
 				else {
 					Data data = (Data) obj;
 					if(data.isAlive()) {
-						logger.log(Level.FINEST, data.getName() + " is alive");
+						logger.log(Level.FINEST, "{0} is alive", data.getName());
 						return true;
 					} else {
-						logger.log(Level.FINEST, data.getName() + " is not alive");
+						logger.log(Level.FINEST, "{0} is not alive", data.getName());
 						return false;
 					}
 				}
@@ -249,5 +261,19 @@ public class Data extends Thread implements ClientData, PoolableObject {
 			hexText.append(initialHex);
 		}
 		return hexText.toString();
+	}
+
+	/**
+	 * @return the interfaceServer
+	 */
+	public InterfaceServer getInterfaceServer() {
+		return interfaceServer;
+	}
+
+	/**
+	 * @param interfaceServer the interfaceServer to set
+	 */
+	public void setInterfaceServer(InterfaceServer interfaceServer) {
+		this.interfaceServer = interfaceServer;
 	}
 }

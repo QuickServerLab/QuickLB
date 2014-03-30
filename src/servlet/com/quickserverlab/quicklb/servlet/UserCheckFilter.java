@@ -47,6 +47,7 @@ public class UserCheckFilter implements Filter {
          
         if (username == null){
 			res.sendRedirect("/index.jsp");
+			return;
         }
          
         chain.doFilter(request, response);

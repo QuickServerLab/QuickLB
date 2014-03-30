@@ -3,6 +3,7 @@ package com.quickserverlab.quicklb;
 import com.quickserverlab.quicklb.file.FileUtil;
 import com.quickserverlab.quicklb.server.InterfaceServer;
 import java.io.File;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,10 @@ public class QuickLB {
 	private static final Logger logger = Logger.getLogger(QuickLB.class.getName());
 	private static Properties config;
 	
+	private static Date startTime = null;
+	
 	public static void main(String args[]) {
+		setStartTime(new Date());
 		SetupLogging.setupJavaLogging();
 		QuickServer.getVersion();
 		
@@ -88,7 +92,8 @@ public class QuickLB {
 				logger.log(Level.SEVERE, "Error: "+ex, ex);
 			}
 			
-			System.out.println("\nAdmin Url "+server.getURI());
+			//System.out.println("\nAdmin Url "+server.getURI());
+			System.out.println("\nAdmin Url http://127.0.0.1:"+port+"/");
 		}
 	}
 	
@@ -110,5 +115,19 @@ public class QuickLB {
 			}
 		};
 		FileChangeMonitor.addListener(CONFIG_FILE, fc2);
+	}
+
+	/**
+	 * @return the startTime
+	 */
+	public static Date getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * @param aStartTime the startTime to set
+	 */
+	public static void setStartTime(Date aStartTime) {
+		startTime = aStartTime;
 	}
 }

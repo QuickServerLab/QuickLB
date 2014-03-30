@@ -22,11 +22,11 @@
 						String username = (String) session.getAttribute("username");
 						%>
 
-						<a href="index.jsp">Home</a> 
+						<a href="/u/interface">Home</a> | <a href="/u/stat">Statistics</a>  | <a href="/u/interface">Interface</a> 
 					</td>
 					<td width="30%" align="right">
 
-						<a href="changePassword.jsp?user=<%=username%>">Change Password</a> |  <a href="/logout.jsp">Logout</a>
+						<a href="/u/changePassword.jsp?user=<%=username%>">Change Password</a> |  <a href="/logout.jsp">Logout</a>
 					</td>		
 				</tr>	
 			</table>

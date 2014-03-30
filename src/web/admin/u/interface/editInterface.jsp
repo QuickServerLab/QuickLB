@@ -124,7 +124,7 @@
 
 			<tr>
 				<td>
-					Mac Connection
+					Max Connection
 				</td>
 				<td>
 					<input name="max_connection" size="10" value="<%=is.getQuickserver().getMaxConnection()%>" type="number"/>

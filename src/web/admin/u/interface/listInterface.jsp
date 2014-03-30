@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title>QuickLB Admin | Interface</title>
+	<title>QuickLB Web Admin | Interface</title>
 			
 </head>
 <%

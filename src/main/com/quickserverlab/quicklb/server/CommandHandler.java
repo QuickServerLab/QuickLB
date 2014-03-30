@@ -20,10 +20,13 @@ public class CommandHandler implements ClientEventHandler, ClientBinaryHandler {
 	
 	private InterfaceServer interfaceServer;
 	
+	private boolean downtimeStarted;
+	private long downtimeStartTime;
+	
 	@Override
 	public void gotConnected(ClientHandler handler)
 			throws SocketTimeoutException, IOException {
-		logger.log(Level.FINE, "Connection opened: {0}", handler.getHostAddress());
+		logger.log(Level.FINE, "Connection opened: {0}", handler.getHostAddress());		
 		
 		if(interfaceServer==null) {
 			QuickServer server = handler.getServer();
@@ -32,6 +35,8 @@ public class CommandHandler implements ClientEventHandler, ClientBinaryHandler {
 			interfaceServer = (InterfaceServer) storeObj[1];
 		}
 		
+		interfaceServer.getStats().getClientCount().incrementAndGet();
+		
 		ClientInfo ci = new ClientInfo();
 		ci.setInetAddress(handler.getSocket().getInetAddress());
 		ci.setClientKey(handler.getHostAddress());
@@ -39,9 +44,21 @@ public class CommandHandler implements ClientEventHandler, ClientBinaryHandler {
 		LoadDistributor lb = interfaceServer.getInterfaceHosts().getLoadDistributor();
 		SocketBasedHost host = (SocketBasedHost) lb.getHost(ci);
 		if(host==null) {
+			if(downtimeStarted==false) {
+				downtimeStarted = true;
+				downtimeStartTime = System.currentTimeMillis();
+			}
 			logger.warning("We do not have any host to send traffic to.. so closing it down");
 			handler.closeConnection();
+			
+			interfaceServer.getStats().getDroppedCount().incrementAndGet();
 			return;
+		}
+		
+		if(downtimeStarted) {
+			downtimeStarted = false;
+			long diff = (System.currentTimeMillis() - downtimeStartTime);
+			interfaceServer.getStats().addDownTime(diff);
 		}
 		
 		logger.log(Level.FINEST, "SocketBasedHost: {0}", host);
@@ -49,6 +66,7 @@ public class CommandHandler implements ClientEventHandler, ClientBinaryHandler {
 		Data data = (Data) handler.getClientData();
 		data.setRemoteHost(host.getInetSocketAddress().getHostString());
 		data.setRemotePort(host.getInetSocketAddress().getPort());
+		data.setInterfaceServer(interfaceServer);
 		
 		data.init(new Socket(data.getRemoteHost(), 
 			data.getRemotePort()), handler);

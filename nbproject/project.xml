@@ -86,7 +86,7 @@
                 <package-root>src/main</package-root>
                 <package-root>src/web/admin</package-root>
                 <package-root>src/servlet</package-root>
-                <classpath mode="compile">lib/commons-beanutils.jar:lib/commons-collections.jar:lib/commons-digester.jar:lib/commons-logging.jar:lib/commons-pool.jar:lib/log4j.jar:lib/metouia.jar:lib/QSAdminGUI.jar:lib/QuickServer.jar:lib/QuickServerClient.jar:jetty/start.jar:jetty/lib/jetty-server-9.1.2.v20140210.jar:jetty/lib/jetty-webapp-9.1.2.v20140210.jar:jetty/lib/jetty-deploy-9.1.2.v20140210.jar:jetty/lib/jetty-util-9.1.2.v20140210.jar:jetty/lib/servlet-api-3.1.jar:jetty/lib/jetty-servlet-9.1.2.v20140210.jar:jetty/lib/jetty-servlets-9.1.2.v20140210.jar</classpath>
+                <classpath mode="compile">lib/commons-beanutils.jar;lib/commons-collections.jar;lib/commons-digester.jar;lib/commons-logging.jar;lib/commons-pool.jar;lib/log4j.jar;lib/metouia.jar;lib/QSAdminGUI.jar;lib/QuickServer.jar;lib/QuickServerClient.jar;jetty/start.jar;jetty/lib/jetty-deploy-8.1.14.v20131031.jar;jetty/lib/jetty-server-8.1.14.v20131031.jar;jetty/lib/jetty-servlet-8.1.14.v20131031.jar;jetty/lib/jetty-servlets-8.1.14.v20131031.jar;jetty/lib/jetty-util-8.1.14.v20131031.jar;jetty/lib/jetty-webapp-8.1.14.v20131031.jar;jetty/lib/servlet-api-3.0.jar</classpath>
                 <built-to>dist/QuickLB.jar</built-to>
                 <source-level>1.6</source-level>
             </compilation-unit>

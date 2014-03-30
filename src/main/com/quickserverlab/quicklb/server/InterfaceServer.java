@@ -32,6 +32,8 @@ public class InterfaceServer {
 	private String distribution = "roundrobin";
 	private File parentDir;
 	
+	private InterfaceStats stats = new InterfaceStats();
+	
 	public static void initInterfaces() {
 		File[] list = FileUtil.getFilesList("./interfaces");
 		
@@ -401,6 +403,20 @@ public class InterfaceServer {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * @return the stats
+	 */
+	public InterfaceStats getStats() {
+		return stats;
+	}
+
+	/**
+	 * @param stats the stats to set
+	 */
+	public void setStats(InterfaceStats stats) {
+		this.stats = stats;
 	}
 	
 	/*

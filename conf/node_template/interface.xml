@@ -40,8 +40,24 @@
 
 	<object-pool>
 		<max-active>-1</max-active>
-		<max-idle>25</max-idle>
+		<max-idle>50</max-idle>
 		<init-size>5</init-size>
 	</object-pool>
+
+	<advanced-settings>
+		<charset>ISO-8859-1</charset>
+		<use-direct-byte-buffer>true</use-direct-byte-buffer>
+		<byte-buffer-size>65536</byte-buffer-size>
+		<backlog>1024</backlog>
+		<socket-linger>-1</socket-linger>
+		<debug-non-blocking-mode>false</debug-non-blocking-mode>
+		<client-identifier>org.quickserver.net.server.impl.OptimisticClientIdentifier</client-identifier>
+		<qsobject-pool-maker>org.quickserver.util.pool.MakeQSObjectPool</qsobject-pool-maker>
+		<max-threads-for-nio-write>10</max-threads-for-nio-write>
+		<performance-preferences-connection-time>5</performance-preferences-connection-time>
+		<performance-preferences-latency>20</performance-preferences-latency>
+		<performance-preferences-bandwidth>0</performance-preferences-bandwidth>
+		<client-socket-tcp-no-delay>true</client-socket-tcp-no-delay>
+	</advanced-settings>
 
 </quickserver>

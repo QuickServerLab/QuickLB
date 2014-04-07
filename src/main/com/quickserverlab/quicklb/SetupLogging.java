@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.LogManager;
+import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  *
@@ -25,7 +26,6 @@ public class SetupLogging {
 		if (logFile.canRead() == false) {
 			logFile.mkdirs();
 		}
-
 		
 		FileInputStream configFile = null;
 		try {
@@ -43,6 +43,10 @@ public class SetupLogging {
 				}
 			}
 		}
+		
+		DOMConfigurator.configure("./conf/log4j_debug.xml");
+		
+		System.setProperty("org.eclipse.jetty.LEVEL", "WARN");
 
 		return true;
 	}

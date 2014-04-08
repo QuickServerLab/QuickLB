@@ -15,6 +15,10 @@ Quick Start
   * <code>QuickLB.bat</code>
  * Access Web Admin via browser <code>http://Server IP:8282/</code>
 
+System Requirement
+------------------
+ * Java 1.6 or above
+
 Website
 ---------------------
  * https://github.com/QuickServerLab/QuickLB

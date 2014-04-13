@@ -1,11 +1,14 @@
+<%@ page import="java.util.*" %>
+<%@ page import="com.quickserverlab.quicklb.server.*" %>
+<%@ page import="org.quickserver.net.server.*" %>
+<%@ page import="org.quickserver.net.client.*" %>
 <%@ page import="java.util.logging.*" %>
 <%!
 	private static final Logger logger = Logger.getLogger("admin.u.interface.editNodes.jsp");
 %>
-<html>
-	<head>
-		<title>QuickLB Admin - Edit Nodes</title>
-	</head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
 	<%
 	String interfaceName = request.getParameter("name");
 	boolean showGif = false;
@@ -24,253 +27,280 @@
 		}
 	}
 	%>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>QuickLB Admin | <%=interfaceName%> | Edit Nodes</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
 	<body>
-
-		<%@ include file="/u/header.jsp" %>
-		<%
-			
-
-			Map<String,InterfaceServer> map = InterfaceServer.getInterfaces();
-			InterfaceServer is = map.get(interfaceName);
-
-			if(is==null) {
-				response.sendRedirect("index.jsp?error=Bad Interface Name passed");
-				return;
-			}
-		%>
-
-	<center><h4>Edit Nodes for <%=interfaceName%></h4></center>
+	<%@ include file="/u/header.jsp" %>
+    
+    <%
 
 
-	<%
-	String error = request.getParameter("error");
+        Map<String,InterfaceServer> map = InterfaceServer.getInterfaces();
+        InterfaceServer is = map.get(interfaceName);
 
-		if(error!=null) {
+        if(is==null) {
+            response.sendRedirect("index.jsp?error=Bad Interface Name passed");
+            return;
+        }
+    %>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="listInterface.jsp">Interface Overview</a></li>
+            <li class="active"><a href="addInterface.jsp">Add New Interface</a></li>
+            <li><a href="reloadInterfaceAction.jsp">Reload All Interfaces</a></li>
+            <li><hr/></li>
+            <li><a href="../stat/index.jsp">Stats</a></li>
+          </ul>
+          <%@ include file="/u/footer.jsp" %>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+        <ol class="breadcrumb" style="font-size:1.3em;">
+            <li><a href="index.jsp">QuickLB</a></li>
+            <li><a href="editInterface.jsp?name=<%=interfaceName%>"><%=interfaceName%></a></li>
+            <li class="active">Edit Nodes</li>
+        </ol>
+            
+<%
+String error = request.getParameter("error");
+
+	if(error!=null) {
 	%>
-	<h5><font color="red"><%=error%></font></h5>
-		<%
-		}
-		%>
-		<%
-		String msg = request.getParameter("msg");
+<div class="alert alert-warning alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error! </strong><%=error%>
+</div>
+	<%}%>
 
-			if(msg!=null) {
-		%>
-	<h5>
-		<font color="green"><%=msg%></font>
-		<%
-			if(showGif) {
-		%>
-		<img src="../../pics/loader_small.gif" valign="bottom"/>
-		<%
-			}
-		%>
-	</h5>
+<%
+String msg = request.getParameter("msg");
+	if(msg!=null) {
+	%>
+    
+    <%if(showGif) {%>
+        <div class="alert alert-success">
+            <%=msg%><img src="../../pics/loader_small.gif" valign="bottom"/>
+        </div>
+    <%}else{%>
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%=msg%>
+        </div>
+    <%}%>
+        
+
 	<%
 	}
-	%>
+%>
 
-	<%@ page import="java.util.*" %>
-	<%@ page import="com.quickserverlab.quicklb.server.*" %>
-	<%@ page import="org.quickserver.net.server.*" %>
-	<%@ page import="org.quickserver.net.client.*" %>
+                    
+                    
+                   <blockquote  class="bg-info">
+                        <span>Interface details</span>
+                    
+                        <a  class="btn btn-primary btn-xs active" style="float: right; margin-right: 10px; margin-top: 3px;" href="editInterface.jsp?name=<%=interfaceName%>">Edit Interface</a>
+                        <form  style="clear: none;width: 100px;float: right;" action="editInterfaceAction.jsp" method="post" style="clear:both">
+                            <input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
+                            <%if(is.getQuickserver().isClosed()){%>
+                            <button type="submit" name="submit" value="Start Interface" class="btn btn-success btn-xs">Start Interface</button>
+                        <%}else{%>
+                             <button type="submit" name="submit" value="Stop Interface" class="btn btn-xs btn-warning">Stop Interface</button>
+                         <%}%>
+                        </form>
 
-	<table border="1">
-		<tr>
-			<td>Interface Name</td>
+                    </blockquote>
+                    
+                      <div class="table-responsive">
+                        <table class="table table-condensed table-bordered">
+                          <thead>
+                            <tr>
+                              <th>IP</th>
+                              <th>Port</th>
+                              <th>Auto Start</th>
+                              <th>SSL Offloaded</th>
+                              <th>Running</th>
+                              <th>Max Connection</th>
+                              <th>Current Connection</th>
+                              <th>Up Time</th>
+                            </tr>
+                          </thead>
 
-			<td>IP</td>
+                          <tbody>
+                            <tr>
 
-			<td>Port</td>
+                                <td><%=is.getQuickserver().getBindAddr().getHostAddress()%></td>
 
-			<td>Auto Start</td>
+                                <td><%=is.getQuickserver().getPort()%></td>
 
-			<td>SSL Offloaded</td>
+                                <td><%=is.isAutoStart()%></td>
 
-			<td>Running</td>
+                                <td><%=is.getQuickserver().isRunningSecure()%></td>
 
-			<td>Max Connection</td>
+                                <td><%=!is.getQuickserver().isClosed()%></td>
 
-			<td>Current Connection</td>
+                                <td><%=is.getQuickserver().getMaxConnection()%></td>
 
-			<td>Up Time</td>
+                                <td><%=is.getQuickserver().getClientCount()%></td>
 
-			<td>Action</td>
+                                <td><%=is.getQuickserver().getUptime()%></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                       
+                       <blockquote  class="bg-info" style="margin-top: 40px;">
+                            <span>Available Nodes</span>
+                            <a  class="btn btn-primary btn-xs active" style="float: right; margin-right: 10px; margin-top: 3px;" href="addNode.jsp?name=<%=interfaceName%>">Add New Node</a>
+                        </blockquote>
+                          
+                            
+                        <div class="table-responsive">
+                        <table class="table table-condensed table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Node Name</th>
+                              <th>Host</th>
+                              <th>Port</th>
+                              <th>SSL</th>
+                              <th>Timeout</th>
+                              <th>Default</th>
+                              <th>Maintenance</th>
+                              <th>Status</th>
+                              <th>Up Time</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <%
+                                InterfaceHosts ih = is.getInterfaceHosts();
+                                HostList hostList = null;
+                                logger.fine("hostList: "+hostList);
 
-			<td>Action</td>
-		</tr>
+                                List<SocketBasedHost> list = null;
 
+                                if(ih!=null) {
+                                    hostList = ih.getHostList();
+                                }
+                                if(hostList!=null) {
+                                    list = (List<SocketBasedHost>)hostList.getFullList();
+                                    logger.fine("list "+list);
+                                } else {
+                                    logger.fine("host list was null!");
+                                }
 
-		<tr>
-			<td><%=interfaceName%></td>
+                                if(list==null || list.isEmpty()) {
+                            %>
+                            
+                            <tr>
+                                <td colspan="10" align="center">
+                                    <p class="text-danger">No Nodes Visible. Please Make sure interface is UP</p>
+                                </td>
+                            </tr>
+                            
+                            <%} else {
+                                for(int i=0;i<list.size();i++) {
+                            %>
+                          
+                            <tr>
+                                <td><%=InterfaceHosts.getRealNodeName(list.get(i))%></td>
 
-			<td><%=is.getQuickserver().getBindAddr().getHostAddress()%></td>
+                                <td><%=list.get(i).getInetSocketAddress().getHostString()%></td>
 
-			<td><%=is.getQuickserver().getPort()%></td>
+                                <td><%=list.get(i).getInetSocketAddress().getPort()%></td>
 
-			<td><%=is.isAutoStart()%></td>
+                                <td><%=list.get(i).isSecure()%></td>
 
-			<td><%=is.getQuickserver().isRunningSecure()%></td>
+                                <td><%=list.get(i).getTimeout()%></td>
 
-			<td><%=!is.getQuickserver().isClosed()%></td>
+                                <td><%=i==0?true:false%></td>
 
-			<td><%=is.getQuickserver().getMaxConnection()%></td>
+                                <td><%=list.get(i).getStatus()==Host.MAINTENANCE?true:false%></td>
 
-			<td><%=is.getQuickserver().getClientCount()%></td>
+                                <td><%=list.get(i).getStatus()%></td>
+                                
+                                <td><%=list.get(i).getUptime()%></td>
+                                
+                                <td>
+                                    <form action="editNode.jsp" method="post">
+                                            <input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
+                                            <input name="node_name" size="20" type="hidden" value="<%=list.get(i).getName()%>"/>
+                                            <input name="node_default" size="20" type="hidden" value="<%=i==0?true:false%>"/>
 
-			<td><%=is.getQuickserver().getUptime()%></td>
+                                            <input class="btn btn-primary btn-xs active" name="submit" size="10" value="Edit Node" type="submit"/>
 
-			<td><a href="editInterface.jsp?name=<%=interfaceName%>">Edit Interface</a></td>
+                                    </form>
+                                </td>
+                            </tr>
+                            	<%
+                            }//for
 
-			<td>
-				<form action="editInterfaceAction.jsp" method="post">
-					<input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
-					<br/>
-					<input name="submit" size="10" value="Start Interface" type="submit"/>
-					&nbsp;
-					<input name="submit" size="10" value="Stop Interface" type="submit"/>
-				</form>
-			</td>
-		</tr>
-	</table>
+                        }
+                            %>
+                          </tbody>
+                        </table>
+                      </div>
+                            
+                            
+                       <blockquote  class="bg-info" style="margin-top: 40px;">
+                            <span>Distribution parameters </span>
+                        </blockquote>
+                          
+                        
+      <div class="row">            
+		<div style="width:450px;margin-top:30px; margin-left: 15px;">
+            <form class="form-horizontal" role="form">
+              <input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
+              <div class="form-group">
+                <label for="distribution" class="col-sm-6 control-label">Method</label>
+                <div class="col-sm-6">
+                    <%
+                    String dis = is.getDistribution();
+                    %>
+                    <select name="distribution" class="form-control" >
+                        <option value="ip_based" <%=dis.equals("ip_based")?"selected":""%>>Client IP Based (sticky)</option>
+                        <option value="roundrobin" <%=dis.equals("roundrobin")?"selected":""%>>Roundrobin</option>
+                        <option value="failover" <%=dis.equals("failover")?"selected":""%>>Failover</option>
+                        <option value="random" <%=dis.equals("random")?"selected":""%>>Random</option>
+                    </select>	
+                </div>
+              </div>
 
-	<br/>&nbsp;<br/>
+              <div class="form-group">
+                <label for="monitoringIntervalInSec" class="col-sm-6 control-label">Monitoring Interval (In Sec)</label>
+                <div class="col-sm-6">
+                  <input type="number" class="form-control" name="monitoringIntervalInSec" value="<%=is.getMonitoringIntervalInSec()%>">
+                </div>
+              </div>
 
+              <div class="form-group">
+                <div class="col-sm-offset-6 col-sm-6">
+                  <button  name="submit" type="submit" class="btn btn-success" value="Update Interface">Update Interface</button>
+                </div>
+              </div>
+            </form>
+		</div>
+      </div>
 
-	<form action="editNodesAction.jsp" method="post">
-		<input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
-		<table border="1">
-			<tr>
-				<td>
-					Distribution Method
-				</td>
-				<td>
-					<%
-					String dis = is.getDistribution();
-					%>
-					<select name="distribution"  >
-						<option value="ip_based" <%=dis.equals("ip_based")?"selected":""%>>Client IP Based (sticky)</option>
-						<option value="roundrobin" <%=dis.equals("roundrobin")?"selected":""%>>Roundrobin</option>
-						<option value="failover" <%=dis.equals("failover")?"selected":""%>>Failover</option>
-						<option value="random" <%=dis.equals("random")?"selected":""%>>Random</option>
-					</select>				
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Monitoring Interval
-				</td>
-				<td>
-					<input name="monitoringIntervalInSec" size="10" value="<%=is.getMonitoringIntervalInSec()%>" type="number"/> In Sec
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<br/>
-					<input name="submit" size="10" value="Update Interface" type="submit"/>
-				</td>
-			</tr>
-		</table>
-	</form>
+          
+        </div>
+      </div>
+    </div>
 
-	<center><h4>Nodes List for <%=interfaceName%></h4></center>
-	<a href="addNode.jsp?name=<%=interfaceName%>">Add New Node</a>
-	<table border="1">
-		<tr>
-			<td>Node Name</td>
-
-			<td>Host</td>
-
-			<td>Port</td>
-
-			<td>SSL</td>
-
-			<td>Timeout</td>
-
-			<td>Default</td>
-
-			<td>Maintenance</td>
-
-			<td>Status</td>
-
-			<td>Up Time</td>
-
-			<td>Action</td>
-		</tr>
-		<%
-			InterfaceHosts ih = is.getInterfaceHosts();
-			HostList hostList = null;
-			logger.fine("hostList: "+hostList);
-
-			List<SocketBasedHost> list = null;
-			
-			if(ih!=null) {
-				hostList = ih.getHostList();
-			}
-			if(hostList!=null) {
-				list = (List<SocketBasedHost>)hostList.getFullList();
-				logger.fine("list "+list);
-			} else {
-				logger.fine("host list was null!");
-			}
-
-			if(list==null || list.isEmpty()) {
-		%>
-		<tr>
-			<td colspan="10" align="center">
-				No Nodes Visible. Please Make sure interface is UP
-			</td>
-		</tr>
-		<%
-				
-	} else {
-				
-				
-		for(int i=0;i<list.size();i++) {
-
-		%>
-		<tr>
-			<td><%=InterfaceHosts.getRealNodeName(list.get(i))%></td>
-
-			<td><%=list.get(i).getInetSocketAddress().getHostString()%></td>
-
-			<td><%=list.get(i).getInetSocketAddress().getPort()%></td>
-
-			<td><%=list.get(i).isSecure()%></td>
-
-			<td><%=list.get(i).getTimeout()%></td>
-
-			<td><%=i==0?true:false%></td>
-
-			<td><%=list.get(i).getStatus()==Host.MAINTENANCE?true:false%></td>
-
-			<td><%=list.get(i).getStatus()%></td>
-
-			<td><%=list.get(i).getUptime()%></td>
-
-
-		<form action="editNode.jsp" method="post">
-			<td>
-
-				<input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
-				<input name="node_name" size="20" type="hidden" value="<%=list.get(i).getName()%>"/>
-				<input name="node_default" size="20" type="hidden" value="<%=i==0?true:false%>"/>
-
-				<input name="submit" size="10" value="Edit Node" type="submit"/>
-
-			</td>
-		</form>
-	</tr>
-
-	<%
-	}//for
-				
-}
-	%>
-
-
-</table>
-
-<%@ include file="/u/footer.jsp" %>
-</body>
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <script src="/scripts/docs.min.js"></script>
+  </body>
 </html>

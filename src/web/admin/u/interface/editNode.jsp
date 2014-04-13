@@ -1,21 +1,15 @@
-<html>
-	<head>
-		<title>QuickLB Admin - Edit Node</title>
-	</head>
-	<body>
-
-	<%@ include file="/u/header.jsp" %>
-	<center><h4>Edit Node</h4></center>
-
-
-	<%@ page import="java.util.*" %>
-	<%@ page import="com.quickserverlab.quicklb.server.*" %>
-	<%@ page import="org.quickserver.net.server.*" %>
-	<%@ page import="org.quickserver.net.client.*" %>
-	<%@ page import="java.util.logging.*" %>
-	<%!
+<%@ page import="java.util.*" %>
+<%@ page import="com.quickserverlab.quicklb.server.*" %>
+<%@ page import="org.quickserver.net.server.*" %>
+<%@ page import="org.quickserver.net.client.*" %>
+<%@ page import="java.util.logging.*" %>
+<!DOCTYPE html>
+<html lang="en">
+    
+    <%!
 		private static final Logger logger = Logger.getLogger("admin.u.interface.editNode.jsp");
 	%>
+    
 	<%
 		String interfaceName = request.getParameter("name");
 		String nodeName = request.getParameter("node_name");
@@ -50,173 +44,170 @@
 			return;
 		}
 	%>
+    
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>QuickLB Admin | <%=interfaceName%> | Edit Node</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+	<body>
+	<%@ include file="/u/header.jsp" %>
 
-	<a href="editNodes.jsp?name=<%=interfaceName%>">View All Nodes</a><br/>&nbsp;<br/>
-	<form action="editNodeAction.jsp" method="post">
-		<input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
-		<input name="node_name" size="20" type="hidden" value="<%=nodeName%>"/>
-		<table border="1">
-			<tr>
-				<td>
-					Host Name
-				</td>
-				<td>
-					<input name="new_node_name" size="20" type="text" value="<%=InterfaceHosts.getRealNodeName(host)%>"/>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="listInterface.jsp">Interface Overview</a></li>
+            <li ><a href="addInterface.jsp">Add New Interface</a></li>
+            <li><a href="reloadInterfaceAction.jsp">Reload All Interfaces</a></li>
+            <li><hr/></li>
+            <li><a href="../stat/index.jsp">Stats</a></li>
+          </ul>
+          <%@ include file="/u/footer.jsp" %> 
+          
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-				</td>
-			</tr>
-
-			<tr>
-				<td colspan="2" align="center">
-					&nbsp;
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Host IP
-				</td>
-				<td>
-					<input name="ip" size="20" value="<%=host.getInetSocketAddress().getHostString()%>" type="text"/>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Host Port
-				</td>
-				<td>
-					<input name="port" size="10" value="<%=host.getInetSocketAddress().getPort()%>" type="number"/>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					SSL
-				</td>
-				<td>
-					<input name="ssl" value="true" type="checkbox" <%
-						if(host.isSecure()) {
-						   %>checked<%
-					}%> />
-				</td>
-			</tr>
-
-
-			<tr>
-				<td>
-					Timeout (ms)
-				</td>
-				<td>
-					<input name="timeout" size="10" value="<%=host.getTimeout()%>" type="number"/>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Default
-				</td>
-				<td>
-					<input name="default" value="true" type="checkbox" <%
-						if("true".equals(nodeDefault)) {
-						   %>checked<%
-					}%> />
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Maintenance
-				</td>
-				<td>
-					<input name="maintenance" value="true" type="checkbox" <%
-						if(host.getStatus()==Host.MAINTENANCE) {
-						   %>checked<%
-					}%> />
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Status
-				</td>
-				<td>
-					<%=host.getStatus()%>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Up Time
-				</td>
-				<td>
-					<%=host.getUptime()%>
-				</td>
-			</tr>
-
-			<tr>
-				<td colspan="2" align="center">
-					&nbsp;
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Welcome Msg 
-				</td>
-				<td>
-					Enabled <input name="welcome_data_check" value="true" type="checkbox" <%
-						if(host.getTextToExpect()!=null && host.getTextToExpect().length()!=0) {
+        <ol class="breadcrumb" style="font-size:1.3em;">
+            <li><a href="index.jsp">QuickLB</a></li>
+            <li><a href="editInterface.jsp?name=<%=interfaceName%>"><%=interfaceName%></a></li>
+            <li><a href="editNodes.jsp?name=<%=interfaceName%>">Nodes</a></li>
+            <li class="active">Edit node (<%=InterfaceHosts.getRealNodeName(host)%>)</li>
+        </ol>
+          
+          <form  class="form-horizontal" role="form"action="editNodeAction.jsp" method="post" style="width:450px;margin-top:20px;">
+              
+              
+            <div class="row form-group" style="margin-left:15px;">
+                <div class="col-md-12 post-header-line" style="text-align: center">
+                    <span style="font-size:12px;"><strong>Status : </strong><span class="badge"><%=host.getStatus()%></span></span>
+                    &nbsp;&nbsp;&nbsp;
+                    <span style="font-size:12px;"><strong>Up time : </strong><span class="badge"><%=host.getUptime()%></span></span>&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+              
+            <input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
+            <input name="node_name" size="20" type="hidden" value="<%=nodeName%>"/>
+              
+             <div class="form-group">
+                <label for="new_node_name" class="col-sm-4 control-label">Host Name</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" maxlength="20" name="new_node_name" placeholder="Node Name" value="<%=InterfaceHosts.getRealNodeName(host)%>">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="ip" class="col-sm-4 control-label">Host IP</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="ip" value="<%=host.getInetSocketAddress().getHostString()%>" placeholder="Host IP">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="port" class="col-sm-4 control-label">Host Port</label>
+                <div class="col-sm-8">
+                  <input type="number" class="form-control" name="port" value="<%=host.getInetSocketAddress().getPort()%>" placeholder="Host Port">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="timeout" class="col-sm-4 control-label">Timeout (ms)</label>
+                <div class="col-sm-8">
+                  <input type="number" class="form-control" name="timeout" value="<%=host.getTimeout()%>" placeholder="Timeout (ms)">
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label for="welcome_data_check" class="col-sm-4 control-label">Welcome Msg</label>
+                <div class="col-sm-8">
+                  <input type="checkbox" name="welcome_data_check" value="true" <% if(host.getTextToExpect()!=null && host.getTextToExpect().length()!=0) {
 								   %>checked<%
-					}%> /> <br/>
-					<textarea rows="4" cols="50" name="welcome_data"><%=host.getTextToExpect()!=null?host.getTextToExpect():""%></textarea>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Request Data
-				</td>
-				<td>
-					Enabled <input name="req_data_check" value="true" type="checkbox" <%
-						if(host.getRequestText()!=null && host.getRequestText().length()!=0) {
+					}%> > Enabled
+                  <textarea class="form-control" rows="4" cols="50" name="welcome_data"><%=host.getTextToExpect()!=null?host.getTextToExpect():""%></textarea>
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label for="req_data_check" class="col-sm-4 control-label">Request Data</label>
+                <div class="col-sm-8">
+                  <input type="checkbox" name="req_data_check" value="true" <% if(host.getRequestText()!=null && host.getRequestText().length()!=0) {
 								   %>checked<%
-					}%> /> <br/>
-					<textarea rows="4" cols="50" name="req_data"><%=host.getRequestText()!=null?host.getRequestText():""%></textarea>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Response Data
-				</td>
-				<td>
-					Enabled <input name="res_data_check" value="true" type="checkbox" <%
-						if(host.getResponseTextToExpect()!=null && host.getResponseTextToExpect().length()!=0) {
+					}%> > Enabled
+                  <textarea class="form-control" rows="4" cols="50" name="req_data"><%=host.getRequestText()!=null?host.getRequestText():""%></textarea>
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label for="res_data_check" class="col-sm-4 control-label">Response Data</label>
+                <div class="col-sm-8">
+                  <input type="checkbox" name="res_data_check" value="true" <% if(host.getResponseTextToExpect()!=null && host.getResponseTextToExpect().length()!=0) {
 								   %>checked<%
-					}%> /> <br/>
-					<textarea rows="4" cols="50" name="res_data"><%=host.getResponseTextToExpect()!=null?host.getResponseTextToExpect():""%></textarea>
-				</td>
-			</tr>
+					}%> > Enabled
+                  <textarea class="form-control" rows="4" cols="50" name="res_data"><%=host.getResponseTextToExpect()!=null?host.getResponseTextToExpect():""%></textarea>
+                </div>
+              </div>
+                             
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="default" value="true" <% if("true".equals(nodeDefault)) {
+						   %>checked<%
+					}%> > Default
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="ssl" value="true" <%if(host.isSecure()) {
+						   %>checked<%
+					}%> > SSL
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="maintenance" value="true" <% if(host.getStatus()==Host.MAINTENANCE) {
+						   %>checked<%
+					}%> > Maintenance
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
 
+              
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <button  name="submit" type="submit" class="btn btn-danger" value="Delete Node">Delete Node</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button  name="submit" type="submit" class="btn btn-success" value="Update Node">Update Node</button>
+                </div>
+              </div>
+              
+        </form>
+        </div>
+      </div>
+    </div>
 
-			<tr>
-				<td colspan="2" align="center">
-					&nbsp;
-				</td>
-			</tr>
-
-			<tr>
-				<td colspan="2" align="center">
-					<br/>
-					<input name="submit" size="10" value="Update Node" type="submit"/>
-					&nbsp;&nbsp;&nbsp;
-					<input name="submit" size="10" value="Delete Node" type="submit"/>
-					<br/>&nbsp;<br/>
-				</td>
-			</tr>
-		</table>
-	</form>
-	<%@ include file="/u/footer.jsp" %>
-</body>
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <script src="/scripts/docs.min.js"></script>
+  </body>
 </html>

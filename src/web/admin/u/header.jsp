@@ -1,39 +1,24 @@
-<table width="100%" height="100%">
-	<tr>
-		<td bgcolor="#fafafa" width="100%" height="10">
-			<table width="100%">
-				<tr>
-					<td >
-						<br/>
-						&nbsp;&nbsp;QuickLB Web Admin
-					</td>		
-				</tr>	
-			</table>
-			<br/>
-
-		</td>
-	</tr>
-	<tr>
-		<td width="100%" height="10">
-			<table width="100%">
-				<tr>
-					<td width="70%">
-						<%
-						String username = (String) session.getAttribute("username");
-						%>
-
-						<a href="/u/interface">Home</a> | <a href="/u/stat">Statistics</a>  | <a href="/u/interface">Interface</a> 
-					</td>
-					<td width="30%" align="right">
-
-						<a href="/u/changePassword.jsp?user=<%=username%>">Change Password</a> |  <a href="/logout.jsp">Logout</a>
-					</td>		
-				</tr>	
-			</table>
-		</td>
-	</tr>
-
-	<tr width="100%" height="*">
-		<td >
-
-
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">QuickLB Web Admin</a>
+        </div>
+        <%
+            String username = (String) session.getAttribute("username");
+        %>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/u/interface/index.jsp">Home</a></li>
+            <li><a href="/u/changePassword.jsp?user=<%=username%>">Change Password</a></li>
+            <li><a href="/logout.jsp">Logout</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>

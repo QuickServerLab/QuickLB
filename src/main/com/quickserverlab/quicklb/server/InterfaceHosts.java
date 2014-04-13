@@ -347,7 +347,8 @@ public class InterfaceHosts {
 				hostConfig.setProperty("maintenance", "false");
 			}
 			
-			hostConfig.setProperty("host", host.getInetSocketAddress().getHostString());
+			hostConfig.setProperty("host", 
+				host.getInetSocketAddress().getAddress().getHostAddress());
 			hostConfig.setProperty("port", ""+host.getInetSocketAddress().getPort());
 			
 			hostConfig.setProperty("timeout", ""+host.getTimeout());

@@ -430,6 +430,8 @@ public class InterfaceServer {
 			key = iterator.next();
 			is = interfaces.get(key);
 			
+			is.getStats().getDownTime()
+			
 			InterfaceHosts ih = is.getInterfaceHosts();
 			HostList hostList = ih.getHostList();
 			//hostList.getHostByName(null)
@@ -443,6 +445,7 @@ public class InterfaceServer {
 				
 				list.get(i).getResponseTextToExpect()
 			}
+		
 			
 			SocketBasedHost sbh = new SocketBasedHost();
 			sbh.setName();
@@ -454,6 +457,8 @@ public class InterfaceServer {
 			sbh.setRequestText();			
 			sbh.setResponseTextToExpect();
 		}
-	}
-	*/
+	}*/
+
+	
+	
 }

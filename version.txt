@@ -1,9 +1,11 @@
 Version History for QuickLB
 --------------------------------
 
-Current Version: 0.1.0
+Current Version: 0.9.0
 
 
-version 0.1.0 [??-Feb-2014]
+version 0.9.0 [15-Mar-2014]
 ---------------------------
 + First release
+
+

@@ -1,11 +1,11 @@
 
-QuickLB Beta
-------------
+QuickLB Beta v 0.9.0
+---------------------
 QuickLB - Easy to use TCP load balancer. QuickLB is a free,fast and reliable solution offering high availability,load balancing, and proxying for TCP based applications. It is particularly suited for tcp/ip based server and web sites crawling under very high loads. Supporting thousands of connections. QuickLB is based on QuickServer
 
 QuickLB is simple yet powerful. Its simple design promotes quick deployment, easy to use and setup. 
 
-This is still very beta and under active development.
+This is still beta and under active development.
 
 Quick Start
 ------------
@@ -69,7 +69,7 @@ Jetty : www.eclipse.org/jetty
  Servlet Engine and Http Server - Eclipse 
 
 
-Date: 25 Feb 2014
+Date: 15 Apr 2014
 ---------------------
 
 Copyright (C) 2014 QuickServer Lab

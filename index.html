@@ -28,37 +28,92 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+          <h2>
+<a name="quicklb-beta-v-090" class="anchor" href="#quicklb-beta-v-090"><span class="octicon octicon-link"></span></a>QuickLB Beta v 0.9.0</h2>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>QuickLB - Easy to use TCP load balancer. QuickLB is a free,fast and reliable solution offering high availability,load balancing, and proxying for TCP based applications. It is particularly suited for tcp/ip based server and web sites crawling under very high loads. Supporting thousands of connections. QuickLB is based on QuickServer</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>QuickLB is simple yet powerful. Its simple design promotes quick deployment, easy to use and setup. </p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>This is still beta and under active development.</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<h2>
+<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h2>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<ul>
+<li>Use <code>ant</code> to build</li>
+<li>Start LB using provided .bat or .sh file
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<ul>
+<li>
+<code>sh QuickLB.sh</code> or <code>sh QuickLB-d.sh</code>
+</li>
+<li><code>QuickLB.bat</code></li>
+</ul>
+</li>
+<li>Access Web Admin via browser <code>http://Server IP:8282/</code>
+</li>
+</ul><h2>
+<a name="system-requirement" class="anchor" href="#system-requirement"><span class="octicon octicon-link"></span></a>System Requirement</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<ul>
+<li>Java 1.6 or above</li>
+</ul><h2>
+<a name="website" class="anchor" href="#website"><span class="octicon octicon-link"></span></a>Website</h2>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<ul>
+<li><a href="https://github.com/QuickServerLab/QuickLB">https://github.com/QuickServerLab/QuickLB</a></li>
+</ul><h2>
+<a name="forum" class="anchor" href="#forum"><span class="octicon octicon-link"></span></a>Forum</h2>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<ul>
+<li><a href="https://groups.google.com/forum/#!forum/quicklb">https://groups.google.com/forum/#!forum/quicklb</a></li>
+</ul><h2>
+<a name="license-copyright" class="anchor" href="#license-copyright"><span class="octicon octicon-link"></span></a>License, Copyright</h2>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>QuickLB - Easy to use TCP load balancer</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Copyright (C) 2014 QuickServer Lab</p>
+
+<p>This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.</p>
+
+<p>This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</p>
+
+<p>Note: The GNU LGPL v2.1 is included in the file "license.txt" for 
+your convenience.</p>
+
+<h2>
+<a name="other-librariestools-used" class="anchor" href="#other-librariestools-used"><span class="octicon octicon-link"></span></a>Other Libraries/Tools Used</h2>
+
+<p>QuickLB uses the following third party libraries and would like
+to thank all of them for making life easier for developers.</p>
+
+<p>-- Included Jars/Libraries --
+QuickServer: <a href="http://www.quickserver.org/">http://www.quickserver.org/</a></p>
+
+<p>QuickServer is an open source Java library/framework for quick 
+ creation of robust multi-client TCP server applications. </p>
+
+<p>Jetty : <a href="http://www.eclipse.org/jetty">www.eclipse.org/jetty</a></p>
+
+<p>Servlet Engine and Http Server - Eclipse </p>
+
+<h2>
+<a name="date-15-apr-2014" class="anchor" href="#date-15-apr-2014"><span class="octicon octicon-link"></span></a>Date: 15 Apr 2014</h2>
+
+<p>Copyright (C) 2014 QuickServer Lab</p>
+
+<p><a href="https://github.com/QuickServerLab/QuickLB">https://github.com/QuickServerLab/QuickLB</a></p>
         </section>
 
         <aside id="sidebar">

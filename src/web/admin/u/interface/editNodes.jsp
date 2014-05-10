@@ -217,7 +217,7 @@ String msg = request.getParameter("msg");
                             <tr>
                                 <td><%=InterfaceHosts.getRealNodeName(list.get(i))%></td>
 
-                                <td><%=list.get(i).getInetSocketAddress().getHostString()%></td>
+                                <td><%=list.get(i).getInetAddress().getHostAddress()%></td>
 
                                 <td><%=list.get(i).getInetSocketAddress().getPort()%></td>
 

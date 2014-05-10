@@ -108,7 +108,7 @@
               <div class="form-group">
                 <label for="ip" class="col-sm-4 control-label">Host IP</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" name="ip" value="<%=host.getInetSocketAddress().getHostString()%>" placeholder="Host IP">
+                  <input type="text" class="form-control" name="ip" value="<%=host.getInetAddress().getHostAddress()%>" placeholder="Host IP">
                 </div>
               </div>
               

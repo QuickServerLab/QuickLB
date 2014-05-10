@@ -4,15 +4,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/web/admin/u/stat/index.jsp</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/main/com/quickserverlab/quicklb/server/Data.java</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/main/com/quickserverlab/quicklb/server/CommandHandler.java</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/web/admin/setPassword.jsp</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/web/admin/css/style.css</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/web/admin/index.jsp</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/web/admin/u/header.jsp</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/main/com/quickserverlab/quicklb/QuickLB.java</file>
-            <file>file:/Users/akshath/Dropbox/development/QuickLB/git/src/main/com/quickserverlab/quicklb/server/InterfaceStats.java</file>
+            <file>file:/C:/Users/akshath/Dropbox/development/QuickLB/git/src/web/admin/u/interface/editNodes.jsp</file>
+            <file>file:/C:/Users/akshath/Dropbox/development/QuickLB/git/src/main/com/quickserverlab/quicklb/server/Data.java</file>
+            <file>file:/C:/Users/akshath/Dropbox/development/QuickLB/git/src/main/com/quickserverlab/quicklb/server/InterfaceServer.java</file>
+            <file>file:/C:/Users/akshath/Dropbox/development/QuickLB/git/src/main/com/quickserverlab/quicklb/server/InterfaceHosts.java</file>
+            <file>file:/C:/Users/akshath/Dropbox/development/QuickLB/git/src/web/admin/u/interface/editNode.jsp</file>
         </group>
     </open-files>
 </project-private>

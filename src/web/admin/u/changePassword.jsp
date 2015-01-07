@@ -85,7 +85,7 @@ String msg = request.getParameter("msg");
               </div>
               
               <div class="form-group">
-                <label for="password" class="col-sm-4 control-label">Host Port</label>
+                <label for="password" class="col-sm-4 control-label">New password</label>
                 <div class="col-sm-8">
                   <input type="password" class="form-control" name="password" placeholder="New password">
                 </div>

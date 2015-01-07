@@ -261,7 +261,7 @@ String msg = request.getParameter("msg");
                         
       <div class="row">            
 		<div style="width:450px;margin-top:30px; margin-left: 15px;">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" action="editNodesAction.jsp" method="post" role="form">
               <input name="name" size="20" type="hidden" value="<%=interfaceName%>"/>
               <div class="form-group">
                 <label for="distribution" class="col-sm-6 control-label">Method</label>
